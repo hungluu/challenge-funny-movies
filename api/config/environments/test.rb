@@ -50,3 +50,5 @@ Rails.application.configure do
 
   config.logger = ActiveSupport::Logger.new(nil)
 end
+
+Rails.application.routes.default_url_options[:host] = ENV['API_URL'] || 'http://localhost:3000'
