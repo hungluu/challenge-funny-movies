@@ -24,7 +24,7 @@ ui_local_clean:
 test: api_test ui_test
 
 api_test: api_local
-	@docker compose run --rm api rails test
+	@docker compose run --rm api bundle exec rspec
 
 ui_test:
 	@yarn test
