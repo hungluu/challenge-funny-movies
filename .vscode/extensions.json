@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "eamodio.gitlens",
+    "editorconfig.editorconfig",
+    "ms-azuretools.vscode-docker",
+    "wingrunr21.vscode-ruby",
+    "github.vscode-github-actions",
+    "arcanis.vscode-zipfs",
+    "dbaeumer.vscode-eslint"
+  ]
+}
