@@ -3,7 +3,8 @@
     "eamodio.gitlens",
     "editorconfig.editorconfig",
     "ms-azuretools.vscode-docker",
-    "wingrunr21.vscode-ruby",
+    "castwide.solargraph",
+    "shopify.ruby-lsp",
     "arcanis.vscode-zipfs",
     "dbaeumer.vscode-eslint",
     "me-dutour-mathieu.vscode-github-actions"
