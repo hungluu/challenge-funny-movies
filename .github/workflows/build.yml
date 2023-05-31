@@ -1,0 +1,43 @@
+name: "build"
+on:
+  pull_request:
+    branches:
+      - "release/**"
+      - "main"
+  push:
+    branches:
+      - "release/**"
+      - "main"
+
+jobs:
+  api_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy env
+        run: echo "${{ secrets.TEST_ENV }}" > .env
+      - name: Fix tmp permissions
+        run: chmod -R 777 "${{ github.workspace }}/api/tmp"
+      - name: Build api
+        run: make api_local_build
+      - name: Test api
+        run: make api_test
+      - name: Clean api
+        run: make api_local_clean
+
+  ui_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node v18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: make ui_lint
+      - name: Test
+        run: make ui_test

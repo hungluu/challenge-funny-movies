@@ -1,5 +1,7 @@
 Funny Movies
 =====
+![build][badge_build]
+
 A Youtube videos sharing apps - as a challenge with rails and react
 
 **🔥 Techstack**:
@@ -93,6 +95,10 @@ Here are some handy troubleshooting references:
 - Ensure the JS package is packed with type declaration, or you need to install `@types/<package-name>`
 - Select the right TS version from yarn sdk, `ctrl shift P` (for macOS `cmd shift P`), click `Select Typescript Version...` and select workspace version
 
+-----
+Cheers 🍻
+
+[badge_build]: https://github.com/hungluu/challenge-funny-movies/actions/workflows/build.yml/badge.svg
 
 [dep_docker_ts]: https://docs.docker.com/engine/install/troubleshoot
 [dep_docker_hb]: https://formulae.brew.sh/formula/docker
