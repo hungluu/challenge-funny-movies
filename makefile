@@ -1,7 +1,7 @@
 # development
-local: api_local
-local_init: api_local_build
-clean: api_local_clean
+local: api_local ui_local
+local_init: api_local_build ui_local_init
+clean: api_local_clean ui_local_clean
 
 api_local:
 	@docker compose up -d
@@ -12,9 +12,21 @@ api_local_stop:
 api_local_clean:
 	@docker compose down -v
 
+ui_local:
+	@yarn website start
+ui_local_init:
+	@yarn install
+ui_local_clean:
+	@yarn website clean
+	@yarn cache clean
+
 # tests
-test: api_test
+test: api_test ui_test
 
 api_test: api_local
 	@docker compose run --rm api rails test
 
+ui_test:
+	@yarn test
+ui_lint:
+	@yarn lint
