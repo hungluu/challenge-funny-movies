@@ -2,7 +2,6 @@ import React from 'react'
 import type { IProps } from '../interfaces'
 import classnames from 'classnames'
 import PageHeader from './PageHeader'
-import PageModal from './PageModal'
 
 const PageLayout: React.FC<IProps> = ({ children }) => {
   const pageConstructorName = (children as any).type?.name || ''
@@ -17,9 +16,6 @@ const PageLayout: React.FC<IProps> = ({ children }) => {
       <main className='page-main' role='main'>
         {children}
       </main>
-      <PageModal title='Register' visibled>
-        Do you want to register new account with this email address ...?
-      </PageModal>
     </div>
   )
 }

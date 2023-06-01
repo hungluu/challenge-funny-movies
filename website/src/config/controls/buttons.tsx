@@ -1,18 +1,18 @@
 import styled, { css } from 'styled-components'
+import { md } from './responsive'
 
 const white = '#fefefe'
 const black = '#171717'
 const grey = '#dfdfdf'
 
-export type IButtonVariant = 'primary'
-export interface IButtonProps {
-  variant?: IButtonVariant
+export type IStyledButtonVariant = 'primary'
+export interface IStyledButtonProps {
+  variant?: IStyledButtonVariant
 }
 
-export const Button = styled.button<IButtonProps>`
+export const StyledButton = styled.button<IStyledButtonProps>`
   text-align: center;
   min-width: 6rem;
-  padding: 0.5rem 0.75rem;
   font-weight: bold;
 
   border: none;
@@ -38,7 +38,7 @@ export const Button = styled.button<IButtonProps>`
   }
 
   ${props => {
-    const variant = props.variant as IButtonVariant
+    const variant = props.variant as IStyledButtonVariant
 
     switch (variant) {
       case 'primary':
@@ -56,4 +56,11 @@ export const Button = styled.button<IButtonProps>`
         return ''
     }
   }}
+
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  ${md(`
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+  `)}
 `

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { type IProps } from '../interfaces'
-import { Button } from '../controls/buttons'
+import { StyledButton } from '../controls/buttons'
 import classNames from 'classnames'
 
 export interface IPageModalProps extends IProps {
@@ -30,7 +30,7 @@ const PageModal: React.FC<IPageModalProps> = ({ title, visibled, onConfirm, chil
           {children}
         </section>
         <footer className='dialog__footer'>
-          <Button className='footer__confirm' variant='primary' onClick={onConfirm}>Confirm</Button>
+          <StyledButton className='footer__confirm' variant='primary' onClick={onConfirm}>Confirm</StyledButton>
         </footer>
       </div>
     </PageModalContainer>
