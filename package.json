@@ -9,7 +9,8 @@
     "lint": "eslint website/**/*.{ts,tsx} tests/**/*.ts",
     "test": "jest -c tests/spec/config.js spec",
     "test:e2e": "jest -c tests/e2e/config/config.js tests/e2e",
-    "e2e": "start-server-and-test http://localhost:8000 test:e2e"
+    "e2e": "start-server-and-test http://localhost:8000 test:e2e",
+    "e2e:ci": "cross-env process.env.HEADLESS=true yarn e2e"
   },
   "author": {
     "name": "Hung Luu",
@@ -51,5 +52,8 @@
       "headless": "new"
     }
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "yarn@3.5.1",
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  }
 }

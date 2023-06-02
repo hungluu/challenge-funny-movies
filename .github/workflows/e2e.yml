@@ -1,0 +1,20 @@
+name: "e2e"
+on:
+  workflow_dispatch:
+
+jobs:
+  e2e_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy env
+        run: echo "${{ secrets.TEST_ENV }}" > .env
+      - name: Fix tmp permissions
+        run: chmod -R 777 "${{ github.workspace }}/api/tmp"
+      - name: Build api
+        run: make api_local_build
+      - name: Test e2e
+        run: make e2e_ci_test
+      - name: Clean resources
+        run: make api_local_clean

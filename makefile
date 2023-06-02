@@ -33,3 +33,8 @@ ui_test:
 	@yarn test
 ui_lint:
 	@yarn lint
+
+e2e_test: api_local
+	@yarn e2e
+e2e_ci_test: api_local_reset
+	@yarn e2e:ci

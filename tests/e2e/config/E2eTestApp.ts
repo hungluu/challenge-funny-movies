@@ -65,7 +65,7 @@ export class E2eTestApp {
     }, selector) || false
   }
 
-  async wait (ms = 50) {
+  async wait (ms = 100) {
     await this.page.waitForTimeout(ms)
   }
 
