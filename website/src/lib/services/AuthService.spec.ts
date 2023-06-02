@@ -65,7 +65,7 @@ describe('AuthService#register', () => {
     const mockApiResult = {
       status: 200,
       headers: {
-        Authorization: 'Bearer test-token'
+        authorization: 'Bearer test-token'
       }
     }
 
@@ -108,7 +108,7 @@ describe('AuthService#login', () => {
     const mockApiResult = {
       status: 200,
       headers: {
-        Authorization: 'Bearer test-token'
+        authorization: 'Bearer test-token'
       }
     }
 

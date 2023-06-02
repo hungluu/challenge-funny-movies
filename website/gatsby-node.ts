@@ -1,7 +1,7 @@
 // @ts-expect-error pnp-webpack-plugin doesn't provide types
 import * as PnpWebpackPlugin from 'pnp-webpack-plugin'
 import { type CreateWebpackConfigArgs } from 'gatsby'
-import { defines } from './setup/env'
+import { defines } from './env'
 
 const moduleFile = __filename
 

@@ -66,8 +66,6 @@ export class AuthService implements IAuthService {
         exists = !errorMessages.some(message => /not found/i.test(message))
       }
 
-      console.log(response)
-
       return { error: !isLoggedIn, exists, messages: errorMessages }
     } catch (err: any) {
       return { error: false, exists, messages: [err.message] }

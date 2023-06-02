@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { resolve } from 'path'
 
-const envFile = resolve(__dirname, '../../.env')
+const envFile = resolve(process.cwd(), '../.env')
 
 export const env = dotenv.config({
   path: envFile

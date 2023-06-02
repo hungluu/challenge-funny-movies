@@ -31,5 +31,9 @@ FmApi.interceptors.response.use(undefined, async error => {
     return await Promise.reject(error)
   }
 
+  if (response.status === 401) {
+    storageService.removeItem('__token')
+  }
+
   return await Promise.resolve(error.response)
 })

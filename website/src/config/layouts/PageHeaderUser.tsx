@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import type { IUser } from '../../lib/models'
 import { StyledButton } from '../controls/buttons'
-import { md, sm } from '../controls/responsive'
+import { sm } from '../controls/responsive'
 
 interface IPageHeaderUserProps {
   user: IUser

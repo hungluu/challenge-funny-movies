@@ -11,6 +11,9 @@ api_local_stop:
 	@docker compose stop
 api_local_clean:
 	@docker compose down -v
+api_local_migrate:
+	@docker compose run --rm api bundle exec rails db:migrate
+api_local_reset: api_local_clean api_local api_local_migrate
 
 ui_local:
 	@yarn website start

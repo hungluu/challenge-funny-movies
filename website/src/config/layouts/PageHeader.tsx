@@ -17,7 +17,7 @@ const PageHeader = () => {
           </h1>
 
           <section className='navbar__right'>
-            {auth.user && (<PageHeaderUser user={auth.user} onLogout={() => { auth.logout() }} />)}
+            {auth.user && (<PageHeaderUser user={auth.user} onLogout={() => { void auth.logout() }} />)}
             {!auth.user && (<CompactAuthForm />)}
           </section>
         </div>

@@ -38,7 +38,6 @@ export class AuthStore implements IAuthStore {
       password
     })
 
-    console.log(result)
     if (!result.error) {
       this.user = this.service.user
 
@@ -76,7 +75,6 @@ export class AuthStore implements IAuthStore {
       password
     })
 
-    console.log(result)
     if (!result.error) {
       this.user = this.service.user
 

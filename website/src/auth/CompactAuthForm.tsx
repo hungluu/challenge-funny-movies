@@ -41,6 +41,7 @@ const CompactAuthForm: React.FC = () => {
             )
           : ''}
         <FormField
+          className='form__email'
           formId={formId}
           name='email'
           placeholder='Email'
@@ -48,6 +49,7 @@ const CompactAuthForm: React.FC = () => {
           onChange={onInputChange}
         />
         <FormField
+          className='form__password'
           formId={formId}
           name='password'
           placeholder='Password'
@@ -56,6 +58,7 @@ const CompactAuthForm: React.FC = () => {
           onChange={onInputChange}
         />
         <StyledButton
+          className='form__login'
           type='button'
           title='Login or Register'
           variant='primary'
