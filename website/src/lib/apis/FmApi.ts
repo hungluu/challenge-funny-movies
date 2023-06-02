@@ -8,14 +8,17 @@ if (!process.env.API_URL) {
 
 export const FmApi: IApi = axios.create({
   baseURL: process.env.API_URL,
-  withCredentials: false
+  withCredentials: false,
+  headers: {
+    Accept: 'application/json'
+  }
 })
 
 FmApi.interceptors.request.use(config => {
   const token = storageService.getItem('__token')
 
   if (token) {
-    config.headers.Authorization = 'Bearer ' + token
+    config.headers.authorization = 'Bearer ' + token
   }
 
   return config

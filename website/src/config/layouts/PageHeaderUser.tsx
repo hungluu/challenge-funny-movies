@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import type { IUser } from '../../lib/models'
 import { StyledButton } from '../controls/buttons'
-import { md } from '../controls/responsive'
+import { md, sm } from '../controls/responsive'
 
 interface IPageHeaderUserProps {
   user: IUser
@@ -33,7 +33,7 @@ const PageHeaderUserContainer = styled.div`
     word-break: break-all;
     font-weight: 200;
 
-    ${md({ content: '"Welcome"' })}
+    ${sm({ content: '"Welcome"' })}
   }
 
   .header__user__logout {

@@ -76,7 +76,7 @@ describe('AuthService#register', () => {
 
     expect(mockFmApi.post).toHaveBeenCalledWith('/auth/register', { user: testUser })
     expect(mockApis.decodeJwt).toHaveBeenCalledWith('test-token')
-    expect(result).toBe(true)
+    expect(result).toEqual(expect.objectContaining({ error: false }))
 
     jest.spyOn(mockApis, 'decodeJwt').mockClear()
   })
@@ -90,7 +90,7 @@ describe('AuthService#register', () => {
 
     expect(mockFmApi.post).toHaveBeenCalledWith('/auth/register', { user: testUser })
     expect(mockApis.decodeJwt).not.toHaveBeenCalled()
-    expect(result).toBe(false)
+    expect(result).toEqual(expect.objectContaining({ error: true }))
 
     jest.spyOn(mockApis, 'decodeJwt').mockClear()
   })
@@ -119,9 +119,39 @@ describe('AuthService#login', () => {
 
     expect(mockFmApi.post).toHaveBeenCalledWith('/auth/login', { user: testUser })
     expect(mockApis.decodeJwt).toHaveBeenCalledWith('test-token')
-    expect(result).toBe(true)
+    expect(result).toEqual(expect.objectContaining({ error: false }))
 
     jest.spyOn(mockApis, 'decodeJwt').mockClear()
+  })
+
+  it('should addtionally detect if user email exists', async () => {
+    const mockApiResult = {
+      status: 401,
+      data: {
+        error: 'Not found Email.'
+      }
+    }
+
+    jest.spyOn(mockFmApi, 'post').mockResolvedValueOnce(mockApiResult)
+
+    const result = await service.login(testUser)
+
+    expect(mockFmApi.post).toHaveBeenCalledWith('/auth/login', { user: testUser })
+    expect(result).toEqual(expect.objectContaining({ error: true, exists: false }))
+
+    const mockExistsApiResult = {
+      status: 401,
+      data: {
+        error: 'Invalid Email or password'
+      }
+    }
+
+    jest.spyOn(mockFmApi, 'post').mockResolvedValueOnce(mockExistsApiResult)
+
+    const existsResult = await service.login(testUser)
+
+    expect(mockFmApi.post).toHaveBeenCalledWith('/auth/login', { user: testUser })
+    expect(existsResult).toEqual(expect.objectContaining({ error: true, exists: true }))
   })
 
   it('should detect failed login', async () => {
@@ -133,7 +163,7 @@ describe('AuthService#login', () => {
 
     expect(mockFmApi.post).toHaveBeenCalledWith('/auth/login', { user: testUser })
     expect(mockApis.decodeJwt).not.toHaveBeenCalled()
-    expect(result).toBe(false)
+    expect(result).toEqual(expect.objectContaining({ error: true }))
 
     jest.spyOn(mockApis, 'decodeJwt').mockClear()
   })

@@ -33,36 +33,44 @@ export class AuthService implements IAuthService {
       const response = await this.api.post('/auth/register', {
         user
       })
+      let isLoggedIn = false
 
-      if (response?.status !== 200) {
-        return false
+      if (response?.status === 200) {
+        this.setToken(response.headers.authorization)
+        isLoggedIn = Boolean(this.user)
       }
 
-      this.setToken(response.headers.Authorization)
-
-      return Boolean(this.user)
-    } catch (err) {
-      // TODO: handle errors
-      return false
+      return { error: !isLoggedIn, messages: response.data?.errors || [] }
+    } catch (err: any) {
+      return { error: true, messages: [err.message] }
     }
   }
 
   async login (user: IUser) {
+    let isLoggedIn = false
+    let exists = false
+
     try {
       const response = await this.api.post('/auth/login', {
         user
       })
+      const errorMessages: string[] = response.data?.error
+        ? [response.data?.error]
+        : []
 
-      if (response?.status !== 200) {
-        return false
+      if (response?.status === 200) {
+        this.setToken(response.headers.authorization)
+        isLoggedIn = Boolean(this.user)
+        exists = isLoggedIn
+      } else {
+        exists = !errorMessages.some(message => /not found/i.test(message))
       }
 
-      this.setToken(response.headers.Authorization)
+      console.log(response)
 
-      return Boolean(this.user)
-    } catch (err) {
-      // TODO: handle errors
-      return false
+      return { error: !isLoggedIn, exists, messages: errorMessages }
+    } catch (err: any) {
+      return { error: false, exists, messages: [err.message] }
     }
   }
 
@@ -73,9 +81,9 @@ export class AuthService implements IAuthService {
       this.setToken()
       await this.api.delete('/auth/logout')
 
-      return true
-    } catch (err) {
-      return false
+      return { error: false }
+    } catch (err: any) {
+      return { error: true, messages: [err.message] }
     }
   }
 

@@ -1,4 +1,5 @@
-import React, { type FormHTMLAttributes, type InputHTMLAttributes } from 'react'
+import React from 'react'
+import type { HTMLAttributes, FormHTMLAttributes, InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
 import { md, type IBreakpoint, cssFromBp, cssUptoBp } from './responsive'
@@ -6,16 +7,29 @@ import { md, type IBreakpoint, cssFromBp, cssUptoBp } from './responsive'
 export interface IFormProps extends FormHTMLAttributes<any> {
   formId: string
   inline?: boolean
+  noSubmit?: boolean
 }
-export const Form: React.FC<IFormProps> = ({ formId, children, inline }) => {
+export const Form: React.FC<IFormProps> = ({ formId, children, inline, noSubmit, ...formAttrs }) => {
   return (
-    <FormContainer id={`form:${formId}`} className={classNames('form', inline && 'form--inline')}>
+    <FormContainer
+      {...formAttrs}
+      {...noSubmit && {
+        onSubmit: e => {
+          e.preventDefault()
+
+          return false
+        }
+      }}
+      id={`form:${formId}`}
+      className={classNames('form', inline && 'form--inline')}
+    >
       {children}
     </FormContainer>
   )
 }
 
 const FormContainer = styled.form`
+  padding: 0.5rem 0;
   flex-wrap: wrap;
   display: flex;
   flex-direction: column;
@@ -27,25 +41,31 @@ const FormContainer = styled.form`
   }
 
   ${md(`
-    gap: 1rem;
+    gap: 0.75rem;
   `)}
 `
 
-export interface IFormFieldProps {
+export interface IFormFieldProps extends InputHTMLAttributes<any> {
   formId: string
   name: string
   label?: string
-  type?: InputHTMLAttributes<string>['type']
-  placeholder?: string
   children?: undefined
 }
-export const FormField: React.FC<IFormFieldProps> = ({ formId, name, label, placeholder, type = 'text' }) => {
+export const FormField: React.FC<IFormFieldProps> = ({ formId, name, label, placeholder, type = 'text', ...inputAttrs }) => {
   return (
     <FormFieldContainer className='form__field'>
       {label && (
         <label htmlFor={`form:${formId}:${name}`}>{label}</label>
       )}
-      <input title={`Please input ${name}`} id={`form:${formId}:${name}`} type={type} placeholder={placeholder} />
+      <input
+        {...inputAttrs}
+        name={name}
+        title={`Please input ${name}`}
+        aria-label={name}
+        id={`form:${formId}:${name}`}
+        type={type}
+        placeholder={placeholder}
+      />
     </FormFieldContainer>
   )
 }
@@ -74,22 +94,20 @@ const FormFieldContainer = styled.div`
   }
 `
 
-export interface IFormBreakProps {
-  from?: IBreakpoint
-  to?: IBreakpoint
+export interface IFormBreakProps extends HTMLAttributes<any> {
+  from?: Exclude<IBreakpoint, 'xs'>
+  to?: Exclude<IBreakpoint, 'xs'>
+  marginBottom?: string
 }
 
 export const FormBreak = styled.div<IFormBreakProps>`
-  flex-basis: 0;
-  height: 0;
-  width: 0;
-  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
 
-  ${props => props.from && cssFromBp(props.from, `
-    flex-basis: 100%;
-  `)}
+  height: ${props => props.children ? 'auto' : 0};
+  flex-basis: ${props => !props.from ? '100%' : 0};
+  margin-bottom: ${props => props.marginBottom || '0.5rem'}
 
-  ${props => props.to && cssUptoBp(props.to, `
-    flex-basis: 100%;
-  `)}
+  ${props => props.from && cssFromBp(props.from, 'flex-basis: 100%')}
+  ${props => props.to && cssUptoBp(props.to, 'flex-basis: 100%')}
 `

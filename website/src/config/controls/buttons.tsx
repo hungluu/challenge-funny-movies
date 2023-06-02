@@ -21,7 +21,7 @@ export const StyledButton = styled.button<IStyledButtonProps>`
   cursor: pointer;
   color: ${black};
 
-  &:active {
+  &:active, &:focus {
     color: ${black};
     background: #d0d0d0;
   }
@@ -35,7 +35,7 @@ export const StyledButton = styled.button<IStyledButtonProps>`
     &:hover {
       background: ${grey};
     }
-    &:active {
+    &:active, &:focus {
       color: ${white};
       background: ${grey};
     }
@@ -52,7 +52,7 @@ export const StyledButton = styled.button<IStyledButtonProps>`
           &:hover {
             background: #3385ff;
           }
-          &:active {
+          &:active, &:focus {
             background: #3385ff;
           }
         `

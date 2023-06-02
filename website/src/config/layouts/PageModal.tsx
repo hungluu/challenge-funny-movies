@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { type IProps } from '../interfaces'
 import { StyledButton } from '../controls/buttons'
@@ -6,31 +6,39 @@ import classNames from 'classnames'
 
 export interface IPageModalProps extends IProps {
   title: string
-  visibled?: boolean
+  confirmText?: string
   onConfirm?: () => void
+  visible?: boolean
+  toggle?: () => void
 }
 
-const PageModal: React.FC<IPageModalProps> = ({ title, visibled, onConfirm, children }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(visibled || false)
-
+const PageModal: React.FC<IPageModalProps> = ({ title, visible, toggle, onConfirm, confirmText, children }) => {
   return (
-    <PageModalContainer className={classNames('modal', !isVisible && 'modal--hidden')}>
+    <PageModalContainer className={classNames('modal', !visible && 'modal--hidden')}>
       <div className='modal__dialog' role='dialog'>
         <header className='dialog__header'>
           <h3 className='header__title'>{title}</h3>
-          <button
-            className='header__toggle'
-            title='Hide this dialog'
-            aria-label='Hide this dialog'
-            onClick={() => { setIsVisible(false) }}
-          >✕
-          </button>
+          {toggle && (
+            <button
+              className='header__toggle'
+              title='Hide this dialog'
+              aria-label='Hide this dialog'
+              onClick={() => { toggle() }}
+            >✕
+            </button>
+          )}
         </header>
         <section className='dialog__contents'>
           {children}
         </section>
         <footer className='dialog__footer'>
-          <StyledButton className='footer__confirm' variant='primary' onClick={onConfirm}>Confirm</StyledButton>
+          <StyledButton
+            className='footer__confirm'
+            variant='primary'
+            onClick={onConfirm}
+          >
+            {confirmText || 'Confirm'}
+          </StyledButton>
         </footer>
       </div>
     </PageModalContainer>
