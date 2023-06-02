@@ -16,8 +16,8 @@ describe('Auth', () => {
     expect(await app.visible('.modal')).toBe(false)
 
     await app.page.click('.form__login')
-
     await app.wait()
+
     expect(await app.visible('.modal')).toBe(true)
   })
 
@@ -43,7 +43,6 @@ describe('Auth', () => {
 
     await app.page.click('.header__user__logout')
     await app.waitForApi('http://localhost:3000/auth/logout')
-    await app.wait()
 
     expect(await app.visible('.header__user__logout')).toBe(false)
   })

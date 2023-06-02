@@ -10,7 +10,7 @@
     "test": "jest -c tests/spec/config.js spec",
     "test:e2e": "jest -c tests/e2e/config/config.js tests/e2e",
     "e2e": "start-server-and-test http://localhost:8000 test:e2e",
-    "e2e:ci": "cross-env process.env.HEADLESS=true yarn e2e"
+    "e2e:ci": "cross-env HEADLESS=true WAIT_TIME=2500 yarn e2e"
   },
   "author": {
     "name": "Hung Luu",

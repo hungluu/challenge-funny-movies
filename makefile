@@ -19,6 +19,8 @@ ui_local:
 	@yarn website start
 ui_local_init:
 	@yarn install
+ui_local_init_ci:
+	@yarn install --frozen-lockfile
 ui_local_clean:
 	@yarn website clean
 	@yarn cache clean
@@ -36,5 +38,5 @@ ui_lint:
 
 e2e_test: api_local
 	@yarn e2e
-e2e_ci_test: api_local_reset
+e2e_test_ci: api_local_reset
 	@yarn e2e:ci

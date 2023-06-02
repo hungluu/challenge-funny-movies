@@ -4,7 +4,15 @@ export type IHeadlessMode = boolean | 'new'
 export type ISelectIndicator = (el: Element) => boolean
 export type IResponseIndicator = (el: HTTPResponse) => boolean
 
+const minWaitTime = 500
 const defaultHeadlessMode: IHeadlessMode = process.env.HEADLESS ? 'new' : false
+let defaultWaitTime: number = process.env.WAIT_TIME ? +(process.env.WAIT_TIME) : minWaitTime
+
+if (!defaultWaitTime || typeof defaultWaitTime !== 'number') {
+  defaultWaitTime = minWaitTime
+}
+
+console.info(`e2e(headless: ${defaultHeadlessMode as string}, wait: ${defaultWaitTime} / ${minWaitTime})`)
 
 export class E2eTestApp {
   private _browser?: Browser
@@ -65,14 +73,19 @@ export class E2eTestApp {
     }, selector) || false
   }
 
-  async wait (ms = 100) {
-    await this.page.waitForTimeout(ms)
+  async wait (ms = defaultWaitTime) {
+    await this.page.waitForTimeout(ms < minWaitTime ? minWaitTime : ms)
   }
 
   async waitForApi (url: string | IResponseIndicator, timeout = 3000) {
     await this.page.waitForResponse(url, {
       timeout
     })
+    await this.wait()
+  }
+
+  async waitForRender (selector: string) {
+    return await this.page.waitForSelector(selector)
   }
 
   async setup () {
@@ -93,6 +106,7 @@ export class E2eTestApp {
 
   async refresh () {
     await this.page.goto(this.url)
+    await this.page.waitForSelector('main')
   }
 
   async dispose () {

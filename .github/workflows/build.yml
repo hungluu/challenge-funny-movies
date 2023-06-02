@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: make ui_local_init_ci
       - name: Lint
         run: make ui_lint
       - name: Test
