@@ -96,6 +96,8 @@
   "include": [
     "website/src/**/*",
     "website/*.ts",
-    "website/plugins/**/*"
+    "website/plugins/**/*",
+    "website/setup/test.ts",
+    "website/setup/env.ts"
   ]
 }

@@ -23,6 +23,10 @@ export const StyledButton = styled.button<IStyledButtonProps>`
 
   &:active {
     color: ${black};
+    background: #d0d0d0;
+  }
+  &:hover {
+    background: #d0d0d0;
   }
 
   &:disabled {

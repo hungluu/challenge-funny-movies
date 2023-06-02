@@ -4,6 +4,8 @@ import PageLayout from './layouts/PageLayout'
 
 import 'normalize.css'
 import '../assets/styles/root.css'
+import { ServicesContext, StoreContext } from './contexts'
+import { AppStore, appServices } from './bootstrap'
 
 // Instantiating store in `wrapRootElement` handler ensures:
 //  - there is fresh store for each SSR page
@@ -15,9 +17,13 @@ const WrapRootElement: FunctionComponent<IWrapRootElementProps> = ({ element }) 
   return (
     <StrictMode>
       <ErrorBoundary>
-        <PageLayout>
-          {element}
-        </PageLayout>
+        <StoreContext.Provider value={new AppStore()}>
+          <ServicesContext.Provider value={appServices}>
+            <PageLayout>
+              {element}
+            </PageLayout>
+          </ServicesContext.Provider>
+        </StoreContext.Provider>
       </ErrorBoundary>
     </StrictMode>
   )

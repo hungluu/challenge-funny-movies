@@ -1,10 +1,12 @@
 // @ts-expect-error pnp-webpack-plugin doesn't provide types
 import * as PnpWebpackPlugin from 'pnp-webpack-plugin'
 import { type CreateWebpackConfigArgs } from 'gatsby'
+import { defines } from './setup/env'
 
 const moduleFile = __filename
 
-export const onCreateWebpackConfig = ({ actions }: CreateWebpackConfigArgs) => {
+export const onCreateWebpackConfig = ({ actions, plugins }: CreateWebpackConfigArgs) => {
+  // Yarn PnP supports
   actions.setWebpackConfig({
     resolveLoader: {
       plugins: [
@@ -18,5 +20,12 @@ export const onCreateWebpackConfig = ({ actions }: CreateWebpackConfigArgs) => {
         PnpWebpackPlugin
       ]
     }
+  })
+
+  actions.setWebpackConfig({
+    plugins: [
+      // Add the environment variables to webpack.DefinePlugin with define().
+      plugins.define(defines(/API_URL/))
+    ].filter(Boolean)
   })
 }

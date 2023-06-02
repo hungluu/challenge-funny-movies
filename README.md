@@ -42,6 +42,8 @@ Please ensure these depedencies are installed:
 
 ### Init development
 
+To setup necessary environment variables, copy `.env.example` to `.env` and adjust the values as needed, don't forget to provide values into empty variables since they are all **required**.
+
 To installed required dependencies, docker images for development, please use this command:
 
 ```

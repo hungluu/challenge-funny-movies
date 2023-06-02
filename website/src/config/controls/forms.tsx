@@ -19,18 +19,16 @@ const FormContainer = styled.form`
   flex-wrap: wrap;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 
   &.form--inline {
     flex-direction: row;
-
-    .form__field {
-      margin-right: 0.5rem;
-    }
-
-    .form__field:last-child {
-      margin-right: 0;
-    }
+    justify-content: flex-end;
   }
+
+  ${md(`
+    gap: 1rem;
+  `)}
 `
 
 export interface IFormFieldProps {
