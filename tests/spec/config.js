@@ -1,8 +1,10 @@
+const { resolve } = require('path')
+
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  testEnvironment: 'jsdom',
+  rootDir: resolve(__dirname, '../..'),
   setupFilesAfterEnv: [
-    '<rootDir>/website/test.setup.ts'
+    '<rootDir>/tests/spec/setup.js'
   ],
   testRegex: '.+/*\\.(test|spec)\\.(ts|tsx)$',
   preset: 'ts-jest',

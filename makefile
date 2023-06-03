@@ -11,11 +11,16 @@ api_local_stop:
 	@docker compose stop
 api_local_clean:
 	@docker compose down -v
+api_local_migrate:
+	@docker compose run --rm api bundle exec rails db:migrate
+api_local_reset: api_local_clean api_local api_local_migrate
 
 ui_local:
 	@yarn website start
 ui_local_init:
 	@yarn install
+ui_local_init_ci:
+	@yarn install --frozen-lockfile
 ui_local_clean:
 	@yarn website clean
 	@yarn cache clean
@@ -24,9 +29,14 @@ ui_local_clean:
 test: api_test ui_test
 
 api_test: api_local
-	@docker compose run --rm api rails test
+	@docker compose run --rm api bundle exec rspec
 
 ui_test:
 	@yarn test
 ui_lint:
 	@yarn lint
+
+e2e_test: api_local
+	@yarn e2e
+e2e_test_ci: api_local_reset
+	@yarn e2e:ci

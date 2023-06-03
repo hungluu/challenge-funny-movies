@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./api:/app:rw
+      - ${MOUNT_VOLUME:-./api:/app:delegated}
     ports:
       - 3000:3000
     depends_on:
@@ -31,7 +31,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./api:/app:ro
+      - ${MOUNT_VOLUME:-./api:/app:ro}
     depends_on:
       - db
       - cache

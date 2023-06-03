@@ -8,6 +8,7 @@ A Youtube videos sharing apps - as a challenge with rails and react
 - [Rails 7](https://guides.rubyonrails.org/7_0_release_notes.html) API ([Ruby v3](https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-2-2-released/)) built with Docker
 - [Sidekiq 7.1](https://github.com/sidekiq/sidekiq) + [Redis v6](https://redis.com/blog/diving-into-redis-6/) + [PostgreSQL v15](https://www.postgresql.org/docs/release/15.0/)
 - [React v18](https://react.dev/blog/2022/03/29/react-v18) with [Gatsby v5](https://www.gatsbyjs.com/gatsby-5), [Mobx](https://mobx.js.org/README.html)
+- [End-to-end](https://katalon.com/resources-center/blog/end-to-end-e2e-testing) and unit testing covers both API ([rspec][rspec]) and UI ([jest][jest])
 
 **👀 Table of contents**:
 * [Development](#development)
@@ -15,6 +16,9 @@ A Youtube videos sharing apps - as a challenge with rails and react
   + [Init development](#init-development)
   + [Start development](#start-development)
   + [Testing](#testing)
+    - [API unit tests with Rspec](#api-unit-testing)
+    - [UI unit tests with Jest](#ui-unit-testing)
+    - [E2E tests](#e2e-testing)
 * [Troubleshoot](#troubleshoot)
   + [Fix errors installing prerequisites](#fix-errors-installing-prerequisites)
   + [TS cannot find package declaration](#ts-cannot-find-package-declaration)
@@ -42,6 +46,8 @@ Please ensure these depedencies are installed:
 
 ### Init development
 
+To setup necessary environment variables, copy `.env.example` to `.env` and adjust the values as needed, don't forget to provide values into empty variables since they are all **required**.
+
 To installed required dependencies, docker images for development, please use this command:
 
 ```
@@ -64,11 +70,7 @@ These endpoints will be accessible (changes on source code will be reflected ins
 
 ### Testing
 
-To run combined tests:
-
-```
-make test
-```
+### API unit testing
 
 To run API unit tests:
 
@@ -76,11 +78,33 @@ To run API unit tests:
 make api_test
 ```
 
+API unit tests are written with [rspec][rspec], located in `api/spec` folder.
+
+About the test setup and config, see `api/spec`.
+
+### UI unit testing
+
 To run UI tests:
 
 ```
 make ui_test
 ```
+
+UI unit tests are written with [jest][jest], located alongside with tested services, apis or components.
+
+About the test setup and config, see `tests/spec`.
+
+### E2E testing
+
+To run [end-to-end](https://katalon.com/resources-center/blog/end-to-end-e2e-testing) tests:
+
+```
+make e2e_test
+```
+
+E2E tests are written with [jest][jest] and [puppeteer][puppeteer], located in `tests/e2e`.
+
+About the test setup and config, see `tests/e2e/config`.
 
 Troubleshoot
 -----
@@ -99,6 +123,10 @@ Here are some handy troubleshooting references:
 Cheers 🍻
 
 [badge_build]: https://github.com/hungluu/challenge-funny-movies/actions/workflows/build.yml/badge.svg
+
+[rspec]: https://rspec.info
+[jest]: https://jestjs.io/
+[puppeteer]: https://pptr.dev/
 
 [dep_docker_ts]: https://docs.docker.com/engine/install/troubleshoot
 [dep_docker_hb]: https://formulae.brew.sh/formula/docker
