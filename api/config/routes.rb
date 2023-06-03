@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :media, only: [:index, :create]
   devise_for :users,
     path: 'auth',
     path_names: {
