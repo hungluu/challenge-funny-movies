@@ -1,9 +1,6 @@
 name: "build"
 on:
-  pull_request:
-    branches:
-      - "release/**"
-      - "main"
+  pull_request: # all branches are covered
   push:
     branches:
       - "release/**"
