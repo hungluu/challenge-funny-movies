@@ -94,8 +94,9 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "website/src/**/*",
     "website/*.ts",
-    "website/plugins/**/*"
+    "website/**/*.ts",
+    "website/**/*.tsx",
+    "tests/**/*.ts"
   ]
 }

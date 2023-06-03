@@ -12,7 +12,11 @@ RUN install_packages redis-tools
 RUN install_packages postgresql-client
 
 # non-root user
-RUN chown -R bitnami:bitnami /app /home/bitnami /opt/bitnami/ruby/lib/ruby/gems /opt/bitnami/ruby/bin
+RUN chown -R bitnami:bitnami \
+  /app \
+  /home/bitnami \
+  /opt/bitnami/ruby/lib/ruby/gems \
+  /opt/bitnami/ruby/bin
 USER bitnami
 
 WORKDIR /app
@@ -26,11 +30,21 @@ FROM fm-api-base AS fm-api-dev
 
 COPY . .
 
+# non-root user
+USER root
+RUN chown -R bitnami:bitnami /app/config /app/db /app/tmp
+USER bitnami
+
 CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
 # Production
 FROM fm-api-base AS fm-api
 
 COPY . .
+
+# non-root user
+USER root
+RUN chown -R bitnami:bitnami /app/config /app/db /app/tmp
+USER bitnami
 
 CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0", "-e", "production"]
