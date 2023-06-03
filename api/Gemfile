@@ -59,3 +59,6 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.2"
   gem "faker", "~> 3.2"
 end
+
+gem "video_info", "~> 4.0"
+gem "pagy", "~> 6.0"

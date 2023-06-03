@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'POST /auth/login', type: :request do
   it 'returns success on valid login' do
-    user = FactoryBot.create(:user, email: Faker::Internet.email, password: 'password123')
+    user = create(:user, email: Faker::Internet.email, password: 'password123')
 
     post '/auth/login', params: {
       format: 'json',
