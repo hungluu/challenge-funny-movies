@@ -54,9 +54,7 @@ export class AuthService implements IAuthService {
       const response = await this.api.post('/auth/login', {
         user
       })
-      const errorMessages: string[] = response.data?.error
-        ? [response.data?.error]
-        : []
+      const errorMessages: string[] = response.data?.errors || []
 
       if (response?.status === 200) {
         this.setToken(response.headers.authorization)

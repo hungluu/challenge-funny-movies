@@ -32,4 +32,5 @@ export interface IPaginatedDataApiResult<TData> extends IApiResult {
 
 export interface IMediaService {
   list: (url?: string) => Promise<IPaginatedDataApiResult<IMedium>>
+  preview: (url: string) => Promise<IDataApiResult<Omit<IMedium, 'user'> | undefined>>
 }

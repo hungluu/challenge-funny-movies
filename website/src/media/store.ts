@@ -8,6 +8,9 @@ export class MediaStore implements IMediaStore {
   listErrors: string[] = []
   private nextUrl = ''
 
+  postPreview: Omit<IMedium, 'user'> | null = null
+  postErrors: string[] = []
+
   constructor (private readonly service: IMediaService) {
     makeAutoObservable(this)
   }
@@ -26,6 +29,22 @@ export class MediaStore implements IMediaStore {
     }
 
     return await this.fetchItems(this.nextUrl)
+  }
+
+  async preview (url: string) {
+    this.postPreview = null
+    this.postErrors = []
+    const { data, error, messages } = await this.service.preview(url)
+
+    if (!error) {
+      this.postPreview = data || null
+
+      return true
+    } else {
+      this.postErrors = messages || []
+
+      return false
+    }
   }
 
   private async fetchItems (url: string) {

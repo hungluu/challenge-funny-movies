@@ -24,16 +24,39 @@ FmApi.interceptors.request.use(config => {
   return config
 })
 
-FmApi.interceptors.response.use(undefined, async error => {
-  const response = error.response
+FmApi.interceptors.response.use(undefined, async err => {
+  const response = err.response
 
   if (!response) {
-    return await Promise.reject(error)
+    return await Promise.reject(err)
   }
 
   if (response.status === 401) {
     storageService.removeItem('__token')
   }
 
-  return await Promise.resolve(error.response)
+  const data = response.data
+  const { message, error, errors } = data
+  let responseErrors: string[] = []
+
+  if (errors?.length) {
+    responseErrors = errors
+  } else if (errors) { // validation error object
+    Object.keys(errors).forEach(field => {
+      errors[field]?.forEach((message: string) => {
+        responseErrors.push(`${field}: ${message}`)
+      })
+    })
+  } else if (error) {
+    responseErrors = [error]
+  } else if (message) {
+    responseErrors = [message]
+  }
+
+  response.data = {
+    ...data,
+    errors: responseErrors
+  }
+
+  return await Promise.resolve(response)
 })

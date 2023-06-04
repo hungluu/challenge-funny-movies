@@ -11,22 +11,35 @@ export class MediaService implements IMediaService {
       }
 
       const response = await this.api.get(url)
-      const { media: data, pagination, message } = response.data
-      const errorMessages: string[] = message ? [message] : []
-      let error = false
-
-      if (!data || errorMessages.length > 0) {
-        error = true
-      }
+      const { media: data, pagination, errors: messages } = response.data
 
       return {
-        data,
-        error,
+        error: !data || messages?.length > 0,
         nextUrl: pagination?.nextUrl || '',
-        messages: errorMessages
+        data,
+        messages
       }
     } catch (err: any) {
       return { data: [], nextUrl: '', error: true, messages: [err.message] }
+    }
+  }
+
+  async preview (url: string) {
+    try {
+      if (!url) {
+        throw Error('MediaService.preview url should be provided')
+      }
+
+      const response = await this.api.get('/media/preview?url=' + encodeURIComponent(url))
+      const { preview: data, errors: messages } = response.data
+
+      return {
+        error: !data || messages?.length > 0,
+        data,
+        messages
+      }
+    } catch (err: any) {
+      return { data: undefined, error: true, messages: [err.message] }
     }
   }
 }
