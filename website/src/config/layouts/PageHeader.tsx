@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import CompactAuthForm from '../../auth/CompactAuthForm'
 import { observer, store } from '../contexts'
 import PageHeaderUser from './PageHeaderUser'
-import { lg } from '../controls/responsive'
 
 const PageHeader = () => {
   const { auth } = store()
@@ -31,17 +30,10 @@ const Navbar = styled.nav`
   flex-direction: row;
 
   .navbar__container {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 992px;
-
     display: flex;
     flex-direction: row;
     align-items: center;
     box-shadow: 0 1px 1px -1px #000000fa;
-
-    padding: 0 1rem;
-    ${lg('padding: 0')}
   }
 
   .navbar__logo {
