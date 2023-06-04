@@ -6,7 +6,7 @@ services:
     rootDir: api
     healthCheckPath: /health
     envVars:
-      - key: POSTGRES_URL
+      - key: POSTGRES_HOST
         fromDatabase:
           name: db
           property: host
@@ -18,7 +18,7 @@ services:
         fromDatabase:
           name: db
           property: password
-      - key: POSTGRES_DB
+      - key: POSTGRES_DATABASE
         fromDatabase:
           name: db
           property: database
@@ -26,10 +26,12 @@ services:
         fromService:
           type: redis
           name: cache
-          property: hostport
+          property: connectionString
       - key: RAILS_LOG_TO_STDOUT
         value: true
       - key: API_SECRET
+        generateValue: true
+      - key: SECRET_KEY_BASE
         generateValue: true
   - type: redis
     name: cache

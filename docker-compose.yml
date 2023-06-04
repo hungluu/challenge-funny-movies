@@ -43,7 +43,7 @@ services:
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      POSTGRESQL_DATABASE: "${POSTGRESQL_DATABASE}"
+      POSTGRES_DATABASE: "${POSTGRES_DATABASE}"
     volumes:
       - db_data:/bitnami/postgresql
     networks:
