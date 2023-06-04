@@ -4,7 +4,7 @@ require "pagy_cursor/pagy/extras/cursor"
 class MediaController < ApplicationController
   include Pagy::Backend
 
-  before_action :authenticate_user!, only: :create
+  before_action :authenticate_user!, only: [:create, :preview]
 
   # GET /media
   def index
@@ -48,36 +48,59 @@ class MediaController < ApplicationController
 
   # POST /media
   def create
-    params = medium_params
+    begin
+      params = medium_params
+      video = get_video_info(params[:url])
 
-    if !valid_url?(params[:url])
-      render json: { errors: ['invalid video url'] }, status: :unprocessable_entity
-      return
+      @medium = Medium.new(
+        name: video.title,
+        description: video.description,
+        thumbnail: video.thumbnail_medium,
+        url: params[:url],
+        user: current_user
+      )
+
+      if @medium.save
+        render json: @medium, status: :created
+      else
+        render json: { errors: @medium.errors }, status: :unprocessable_entity
+      end
+    rescue Exception  => e
+      render json: { errors: [e.message] }, status: :unprocessable_entity
     end
+  end
 
-    video = VideoInfo.get(params[:url])
+  def preview
+    begin
+      video = get_video_info(params[:url])
+      preview = {
+        name: video.title,
+        description: video.description,
+        thumbnail: video.thumbnail_medium,
+        url: params[:url]
+      }
 
-    if !video.available?
-      render json: { errors: ['can not get video info'] }, status: :unprocessable_entity
-      return
-    end
-
-    @medium = Medium.new(
-      name: video.title,
-      description: video.description,
-      thumbnail: video.thumbnail_medium,
-      url: params[:url],
-      user: current_user
-    )
-
-    if @medium.save
-      render json: @medium, status: :created
-    else
-      render json: { errors: @medium.errors }, status: :unprocessable_entity
+      render json: { preview: preview }, status: :ok
+    rescue Exception => e
+      render json: { errors: [e.message] }, status: :unprocessable_entity
     end
   end
 
   private
+    def get_video_info(url)
+      if !valid_url?(url)
+        raise Exception.new 'invalid video url'
+      end
+
+      video_info = VideoInfo.get(url)
+
+      if !video_info.available?
+        raise Exception.new 'can not get video info'
+      end
+
+      video_info
+    end
+
     # Only allow a list of trusted parameters through.
     def medium_params
       params.require(:medium).permit(:url)
