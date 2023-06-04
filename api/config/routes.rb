@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # authentication
   devise_for :users,
     path: 'auth',
     path_names: {
@@ -11,8 +12,10 @@ Rails.application.routes.draw do
       sessions: "auth/sessions"
     }
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+
+  resources :media, only: [:index, :create] do
+    get :preview, on: :collection
+  end
 
   get '/health', to: 'health#index'
 end

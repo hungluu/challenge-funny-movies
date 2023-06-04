@@ -5,10 +5,15 @@ Funny Movies
 A Youtube videos sharing apps - as a challenge with rails and react
 
 **🔥 Techstack**:
-- [Rails 7](https://guides.rubyonrails.org/7_0_release_notes.html) API ([Ruby v3](https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-2-2-released/)) built with Docker
-- [Sidekiq 7.1](https://github.com/sidekiq/sidekiq) + [Redis v6](https://redis.com/blog/diving-into-redis-6/) + [PostgreSQL v15](https://www.postgresql.org/docs/release/15.0/)
-- [React v18](https://react.dev/blog/2022/03/29/react-v18) with [Gatsby v5](https://www.gatsbyjs.com/gatsby-5), [Mobx](https://mobx.js.org/README.html)
-- [End-to-end](https://katalon.com/resources-center/blog/end-to-end-e2e-testing) and unit testing covers both API ([rspec][rspec]) and UI ([jest][jest])
+- [Rails 7][doc_rails] API ([Ruby v3]([doc_ruby])) built with Docker
+  - [Pagy][doc_pagy] cursor pagination
+  - [devise][doc_devise] jwt auth
+  - [Sidekiq 7.1][doc_sidekiq] + [Redis v6][doc_redis]
+  - [PostgreSQL v15][doc_psql]
+- [React v18][doc_react] with [Gatsby v5][doc_gatsby]
+  - [mobx][doc_mobx] state management
+  - [framer-motion][doc_motion] for animations
+- [End-to-end][doc_e2e] and unit testing covers both API ([rspec][doc_rspec]) and UI ([jest][doc_jest])
 
 **👀 Table of contents**:
 * [Development](#development)
@@ -96,13 +101,13 @@ About the test setup and config, see `tests/spec`.
 
 ### E2E testing
 
-To run [end-to-end](https://katalon.com/resources-center/blog/end-to-end-e2e-testing) tests:
+To run [end-to-end][doc_e2e] tests:
 
 ```
 make e2e_test
 ```
 
-E2E tests are written with [jest][jest] and [puppeteer][puppeteer], located in `tests/e2e`.
+E2E tests are written with [jest][jest] and [puppeteer][doc_puppeteer], located in `tests/e2e`.
 
 About the test setup and config, see `tests/e2e/config`.
 
@@ -124,9 +129,21 @@ Cheers 🍻
 
 [badge_build]: https://github.com/hungluu/challenge-funny-movies/actions/workflows/build.yml/badge.svg
 
-[rspec]: https://rspec.info
-[jest]: https://jestjs.io/
-[puppeteer]: https://pptr.dev/
+[doc_rspec]: https://rspec.info
+[doc_jest]: https://jestjs.io
+[doc_puppeteer]: https://pptr.dev
+[doc_pagy]: https://ddnexus.github.io/pagy
+[doc_devise]: https://github.com/waiting-for-dev/devise-jwt
+[doc_rails]: https://guides.rubyonrails.org/7_0_release_notes.html
+[doc_ruby]: https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-2-2-released
+[doc_sidekiq]: https://github.com/sidekiq/sidekiq
+[doc_redis]: https://redis.com/blog/diving-into-redis-6
+[doc_psql]: https://www.postgresql.org/docs/release/15.0
+[doc_react]: https://react.dev/blog/2022/03/29/react-v18
+[doc_gatsby]: https://www.gatsbyjs.com/gatsby-5
+[doc_mobx]: https://mobx.js.org/README.html
+[doc_e2e]: https://katalon.com/resources-center/blog/end-to-end-e2e-testing
+[doc_motion]: https://framer.com/motion
 
 [dep_docker_ts]: https://docs.docker.com/engine/install/troubleshoot
 [dep_docker_hb]: https://formulae.brew.sh/formula/docker

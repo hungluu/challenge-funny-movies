@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios'
-import type { IUser } from './models'
+import type { IMedium, IUser } from './models'
 
 export type IApi = AxiosInstance
 export type IStorageService = Pick<WindowLocalStorage['localStorage'], 'getItem' | 'setItem' | 'removeItem'>
@@ -19,4 +19,19 @@ export interface IAuthService {
   login: (user: IUser) => Promise<ILoginApiResult>
   register: (user: IUser) => Promise<IApiResult>
   logout: () => Promise<IApiResult>
+}
+
+export interface IDataApiResult<TData> extends IApiResult {
+  data: TData
+}
+
+export interface IPaginatedDataApiResult<TData> extends IApiResult {
+  data: TData[]
+  nextUrl: string
+}
+
+export interface IMediaService {
+  list: (url?: string) => Promise<IPaginatedDataApiResult<IMedium>>
+  preview: (url: string) => Promise<IDataApiResult<Omit<IMedium, 'user'> | undefined>>
+  share: (url: string) => Promise<IDataApiResult<IMedium>>
 }

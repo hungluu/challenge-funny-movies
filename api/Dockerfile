@@ -1,4 +1,6 @@
-FROM bitnami/ruby:3.2 AS fm-api-base
+ARG PLATFORM=linux/amd64
+
+FROM --platform=${PLATFORM} bitnami/ruby:3.2 AS fm-api-base
 
 # add non-root user
 RUN adduser --system --group bitnami

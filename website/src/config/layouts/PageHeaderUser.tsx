@@ -7,14 +7,26 @@ import { sm } from '../controls/responsive'
 interface IPageHeaderUserProps {
   user: IUser
   onLogout?: () => void
+  onShareClick?: () => void
+  shareClicked: boolean
 }
 
-const PageHeaderUser: React.FC<IPageHeaderUserProps> = ({ user, onLogout }) => (
+const PageHeaderUser: React.FC<IPageHeaderUserProps> = ({ user, onLogout, onShareClick, shareClicked }) => (
   <PageHeaderUserContainer>
     <div className='header__user__email'>
       {user.email}
     </div>
-    <StyledButton className='header__user__logout' onClick={onLogout}>Logout</StyledButton>
+    <div className='header__user__btns'>
+      <StyledButton
+        className='header__user__share'
+        variant='share'
+        onClick={onShareClick}
+        disabled={shareClicked}
+      >
+        Share a movie
+      </StyledButton>
+      <StyledButton className='header__user__logout' onClick={onLogout}>Logout</StyledButton>
+    </div>
   </PageHeaderUserContainer>
 )
 
@@ -38,6 +50,13 @@ const PageHeaderUserContainer = styled.div`
 
   .header__user__logout {
     font-weight: 200;
+  }
+
+  .header__user__btns {
+    text-align: right;
+    button {
+      min-width: 110px;
+    }
   }
 `
 

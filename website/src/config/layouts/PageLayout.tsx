@@ -2,6 +2,8 @@ import React from 'react'
 import type { IProps } from '../interfaces'
 import classnames from 'classnames'
 import PageHeader from './PageHeader'
+import styled from 'styled-components'
+import { lg } from '../controls/responsive'
 
 const PageLayout: React.FC<IProps> = ({ children }) => {
   const pageConstructorName = (children as any).type?.name || ''
@@ -11,13 +13,33 @@ const PageLayout: React.FC<IProps> = ({ children }) => {
     .slice(1)
 
   return (
-    <div className={classnames('layout layout--page', pageClassName && `layout--page__${pageClassName}`)}>
+    <PageLayoutContainer className={classnames('layout layout--page', pageClassName && `layout--page__${pageClassName}`)}>
       <PageHeader />
       <main className='page-main' role='main'>
         {children}
       </main>
-    </div>
+    </PageLayoutContainer>
   )
 }
+
+const PageLayoutContainer = styled.div`
+  .navbar__container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 992px;
+
+    padding: 0 1rem;
+    ${lg('padding: 0')}
+  }
+
+  .page-main {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 992px;
+
+    padding: 0 1rem;
+    ${lg('padding: 0')}
+  }
+`
 
 export default PageLayout

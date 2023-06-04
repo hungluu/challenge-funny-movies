@@ -72,4 +72,6 @@ RSpec.configure do |config|
   # config.before(:each, type: :request) do DatabaseCleaner.strategy = :truncation end
   # config.before(:each) do DatabaseCleaner.start end
   # config.after(:each) do DatabaseCleaner.clean end
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end

@@ -1,3 +1,6 @@
+PLATFORM="linux/amd64"
+LOCAL_IMAGE="hungluu/fm-api"
+
 # development
 local: api_local ui_local
 local_init: api_local_build ui_local_init
@@ -40,3 +43,15 @@ e2e_test: api_local
 	@yarn e2e
 e2e_test_ci: api_local_reset
 	@yarn e2e:ci
+
+
+build: api_build
+api_build:
+	@docker build -t "${LOCAL_IMAGE}:latest" \
+		--rm \
+		--platform=${PLATFORM} \
+		--build-arg PLATFORM=${PLATFORM} \
+		--target=fm-api \
+		-f ./api/Dockerfile \
+		./api
+	@echo "Built ${LOCAL_IMAGE}:latest for ${PLATFORM}"
