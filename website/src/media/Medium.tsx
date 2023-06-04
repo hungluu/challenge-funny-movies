@@ -3,6 +3,7 @@ import { VideoPlayer } from '../config/controls/videos'
 import styled from 'styled-components'
 import classnames from 'classnames'
 import { lg, md } from '../config/controls/responsive'
+import { useMediumAnimator } from './animations'
 
 export interface IMediumProps {
   name: string
@@ -20,9 +21,10 @@ const Medium: React.FC<IMediumProps> = ({
   userId
 }) => {
   const [isReady, setIsReady] = useState(false)
+  const animator = useMediumAnimator()
 
   return (
-    <MediumContainer className='medium'>
+    <MediumContainer className='medium' ref={animator}>
       <div className={classnames('medium__player', isReady && 'medium__player--ready')}>
         <img src={thumbnail} className='player__thumbnail' />
         <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />
@@ -32,7 +34,6 @@ const Medium: React.FC<IMediumProps> = ({
         <p className='info__user'>{userId}</p>
         <p className='info__description'>{description?.replace(/(?:[\w]+:\/\/)[^ ]+/ig, '')}</p>
       </div>
-      {/* <img src={thumbnail} alt={`${name} preview thumbnail`} /> */}
     </MediumContainer>
   )
 }
@@ -45,13 +46,17 @@ const MediumContainer = styled.div`
 
   .medium__player {
     flex-basis: 100%;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #dfdfdf;
 
     ${md('flex-basis: 35%; margin-right: 1rem;')}
-    ${lg('flex-basis: 35%; margin-right: 1.5rem;')}
+    ${lg('margin-right: 1.5rem;')}
 
     .player__thumbnail {
       width: 100%;
       display: flex;
+      opacity: 0.9;
 
       &::before {
         content: '';
