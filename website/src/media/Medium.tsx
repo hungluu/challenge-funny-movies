@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
-import { VideoPlayer } from '../config/controls/videos'
+import React, { useState, Suspense, lazy } from 'react'
 import styled from 'styled-components'
 import classnames from 'classnames'
 import { lg, md } from '../config/controls/responsive'
 import { useMediumAnimator } from './animations'
+
+const VideoPlayer = lazy(async () => {
+  const { VideoPlayer } = await import('../config/controls/videos')
+
+  return {
+    default: VideoPlayer
+  }
+})
 
 export interface IMediumProps {
   name: string
@@ -29,7 +36,11 @@ const Medium: React.FC<IMediumProps> = ({
     <MediumContainer className={classnames('medium', className)} ref={animator}>
       <div className={classnames('medium__player', isReady && 'medium__player--ready')}>
         <img src={thumbnail} className='player__thumbnail' />
-        {url && <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />}
+        {url && (
+          <Suspense>
+            <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />
+          </Suspense>
+        )}
       </div>
       <div className='medium__info'>
         <h4 className='info__title'>{name}</h4>
