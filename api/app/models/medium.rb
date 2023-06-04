@@ -14,6 +14,6 @@ class Medium < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(only: [:id, :title, :name, :description, :thumbnail], include: { user: { only: [:email] } })
+    super(only: [:id, :url, :name, :description, :thumbnail], include: { user: { only: [:email] } })
   end
 end

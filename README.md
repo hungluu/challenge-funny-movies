@@ -8,10 +8,11 @@ A Youtube videos sharing apps - as a challenge with rails and react
 - [Rails 7][doc_rails] API ([Ruby v3]([doc_ruby])) built with Docker
   - [Pagy][doc_pagy] cursor pagination
   - [devise][doc_devise] jwt auth
-  - [Sidekiq 7.1][doc_sidekiq]
-  - [Redis v6][doc_redis]
+  - [Sidekiq 7.1][doc_sidekiq] + [Redis v6][doc_redis]
   - [PostgreSQL v15][doc_psql]
-- [React v18][doc_react] with [Gatsby v5][doc_gatsby] + [Mobx][doc_mobx]
+- [React v18][doc_react] with [Gatsby v5][doc_gatsby]
+  - [mobx][doc_mobx] state management
+  - [framer-motion][doc_motion] for animations
 - [End-to-end][doc_e2e] and unit testing covers both API ([rspec][doc_rspec]) and UI ([jest][doc_jest])
 
 **👀 Table of contents**:
@@ -142,6 +143,7 @@ Cheers 🍻
 [doc_gatsby]: https://www.gatsbyjs.com/gatsby-5
 [doc_mobx]: https://mobx.js.org/README.html
 [doc_e2e]: https://katalon.com/resources-center/blog/end-to-end-e2e-testing
+[doc_motion]: https://framer.com/motion
 
 [dep_docker_ts]: https://docs.docker.com/engine/install/troubleshoot
 [dep_docker_hb]: https://formulae.brew.sh/formula/docker

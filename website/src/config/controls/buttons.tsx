@@ -5,7 +5,7 @@ const white = '#fefefe'
 const black = '#171717'
 const grey = '#dfdfdf'
 
-export type IStyledButtonVariant = 'primary'
+export type IStyledButtonVariant = 'primary' | 'share'
 export interface IStyledButtonProps {
   variant?: IStyledButtonVariant
 }
@@ -54,6 +54,17 @@ export const StyledButton = styled.button<IStyledButtonProps>`
           }
           &:active, &:focus {
             background: #3385ff;
+          }
+        `
+      case 'share':
+        return css`
+          color: #fefefe;
+          background: #fa5353;
+          &:hover {
+            background: #ff0000;
+          }
+          &:active, &:focus {
+            background: #ff0000;
           }
         `
       default:

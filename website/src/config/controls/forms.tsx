@@ -9,7 +9,7 @@ export interface IFormProps extends FormHTMLAttributes<any> {
   inline?: boolean
   noSubmit?: boolean
 }
-export const Form: React.FC<IFormProps> = ({ formId, children, inline, noSubmit, ...formAttrs }) => {
+export const Form: React.FC<IFormProps> = ({ formId, children, inline, noSubmit, className, ...formAttrs }) => {
   return (
     <FormContainer
       {...formAttrs}
@@ -21,7 +21,7 @@ export const Form: React.FC<IFormProps> = ({ formId, children, inline, noSubmit,
         }
       }}
       id={`form:${formId}`}
-      className={classNames('form', inline && 'form--inline')}
+      className={classNames('form', inline && 'form--inline', className)}
     >
       {children}
     </FormContainer>
@@ -55,10 +55,11 @@ export const FormField: React.FC<IFormFieldProps> = ({ formId, name, label, plac
   return (
     <FormFieldContainer className='form__field'>
       {label && (
-        <label htmlFor={`form:${formId}:${name}`}>{label}</label>
+        <label className='field__label' htmlFor={`form:${formId}:${name}`}>{label}</label>
       )}
       <input
         {...inputAttrs}
+        className={classNames('field__input', inputAttrs.className)}
         name={name}
         title={`Please input ${name}`}
         aria-label={name}
@@ -71,7 +72,13 @@ export const FormField: React.FC<IFormFieldProps> = ({ formId, name, label, plac
 }
 
 const FormFieldContainer = styled.div`
-  input {
+  .field__label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .field__input {
     color: #171717;
     outline: none;
     border-radius: 0;

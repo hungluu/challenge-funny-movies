@@ -1,14 +1,15 @@
 import React, { type FC } from 'react'
 import type { HeadFC } from 'gatsby'
+import MediumList from '../media/MediumList'
 
 const IndexPage: FC = () => {
   return (
-    <main>
-      <h1>Hello World</h1>
-    </main>
+    <>
+      <MediumList />
+    </>
   )
 }
 
 export default IndexPage
 
-export const Head: HeadFC = () => <title>Home Page</title>
+export const Head: HeadFC = () => <title>Funny Videos</title>

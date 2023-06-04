@@ -4,13 +4,14 @@ require "pagy_cursor/pagy/extras/cursor"
 class MediaController < ApplicationController
   include Pagy::Backend
 
-  before_action :authenticate_user!, only: :create
+  before_action :authenticate_user!, only: [:create, :preview]
 
   # GET /media
   def index
     if params[:after].present?
       after = params[:after]
-      @pagy, @media = pagy_cursor(Medium.all, after: after, order: { created_at: :desc })
+      puts after
+      @pagy, @media = pagy_cursor(Medium.all, before: after.to_i > 0 ? after : '', order: { updated_at: :desc })
       @pagy.vars[:metadata] = [
         :page_url,
         :next_url,
@@ -24,13 +25,13 @@ class MediaController < ApplicationController
       # for quick demo it could be here
       last_id = @media.last&.id
       @pagination[:page_url] = @pagination[:page_url].gsub(/(\d*&|\?)page=\d*/, after)
-      if last_id
+      if last_id && @media.size >= @pagination[:items]
         @pagination[:next_url] = @pagination[:next_url].gsub(/(\d*&|\?)page=\d*/, last_id.to_s)
       else
         @pagination[:next_url] = ""
       end
     else
-      @pagy, @media = pagy(Medium.order(created_at: :desc).all)
+      @pagy, @media = pagy(Medium.order(updated_at: :desc).order(id: :asc).all)
       @pagy.vars[:metadata] = [
         :page_url,
         :next_url,
@@ -43,41 +44,64 @@ class MediaController < ApplicationController
       @pagination = pagy_metadata(@pagy)
     end
 
-    render json: { media: @media, pagination: @pagination }
+    render json: { data: @media, pagination: @pagination }
   end
 
   # POST /media
   def create
-    params = medium_params
+    begin
+      params = medium_params
+      video = get_video_info(params[:url])
 
-    if !valid_url?(params[:url])
-      render json: { errors: ['invalid video url'] }, status: :unprocessable_entity
-      return
+      @medium = Medium.new(
+        name: video.title,
+        description: video.description,
+        thumbnail: video.thumbnail_medium,
+        url: params[:url],
+        user: current_user
+      )
+
+      if @medium.save
+        render json: { data: @medium }, status: :created
+      else
+        render json: { errors: @medium.errors }, status: :unprocessable_entity
+      end
+    rescue Exception  => e
+      render json: { errors: [e.message] }, status: :unprocessable_entity
     end
+  end
 
-    video = VideoInfo.get(params[:url])
+  def preview
+    begin
+      video = get_video_info(params[:url])
+      preview = {
+        name: video.title,
+        description: video.description,
+        thumbnail: video.thumbnail_medium,
+        url: params[:url]
+      }
 
-    if !video.available?
-      render json: { errors: ['can not get video info'] }, status: :unprocessable_entity
-      return
-    end
-
-    @medium = Medium.new(
-      name: video.title,
-      description: video.description,
-      thumbnail: video.thumbnail_medium,
-      url: params[:url],
-      user: current_user
-    )
-
-    if @medium.save
-      render json: @medium, status: :created
-    else
-      render json: { errors: @medium.errors }, status: :unprocessable_entity
+      render json: { data: preview }, status: :ok
+    rescue Exception => e
+      render json: { errors: [e.message] }, status: :unprocessable_entity
     end
   end
 
   private
+    def get_video_info(url)
+      if !valid_url?(url)
+        raise Exception.new 'invalid video url'
+      end
+
+      video_info = VideoInfo.get(url)
+
+      if !video_info.available?
+        raise Exception.new 'can not get video info'
+      end
+
+      video_info
+    end
+
     # Only allow a list of trusted parameters through.
     def medium_params
       params.require(:medium).permit(:url)

@@ -128,7 +128,9 @@ describe('AuthService#login', () => {
     const mockApiResult = {
       status: 401,
       data: {
-        error: 'Not found Email.'
+        errors: [
+          'Not found Email.'
+        ]
       }
     }
 
