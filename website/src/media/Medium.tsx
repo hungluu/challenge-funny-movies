@@ -1,44 +1,76 @@
-import React from 'react'
-import { VideoPlayer } from '../config/controls/media'
+import React, { useState } from 'react'
+import { VideoPlayer } from '../config/controls/videos'
 import styled from 'styled-components'
+import classnames from 'classnames'
 import { lg, md } from '../config/controls/responsive'
 
 export interface IMediumProps {
   name: string
   description?: string
   url: string
-  userEmail: string
+  userId: string
+  thumbnail: string
 }
 
 const Medium: React.FC<IMediumProps> = ({
   name,
   description,
   url,
-  userEmail
-}) => (
-  <MediumContainer className='medium'>
-    <div className='medium__player'>
-      <VideoPlayer url={url} />
-    </div>
-    <div className='medium__info'>
-      <h4 className='info__title'>{name}</h4>
-      <p className='info__user'>{userEmail}</p>
-      <p className='info__description'>{description?.replace(/(?:[\w]+:\/\/)[^ ]+/ig, '')}</p>
-    </div>
-    {/* <img src={thumbnail} alt={`${name} preview thumbnail`} /> */}
-  </MediumContainer>
-)
+  thumbnail,
+  userId
+}) => {
+  const [isReady, setIsReady] = useState(false)
+
+  return (
+    <MediumContainer className='medium'>
+      <div className={classnames('medium__player', isReady && 'medium__player--ready')}>
+        <img src={thumbnail} className='player__thumbnail' />
+        <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />
+      </div>
+      <div className='medium__info'>
+        <h4 className='info__title'>{name}</h4>
+        <p className='info__user'>{userId}</p>
+        <p className='info__description'>{description?.replace(/(?:[\w]+:\/\/)[^ ]+/ig, '')}</p>
+      </div>
+      {/* <img src={thumbnail} alt={`${name} preview thumbnail`} /> */}
+    </MediumContainer>
+  )
+}
 
 const MediumContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 1.5rem 0;
+  padding: 0;
+  padding-bottom: 1.25rem;
 
   .medium__player {
     flex-basis: 100%;
 
     ${md('flex-basis: 35%; margin-right: 1rem;')}
     ${lg('flex-basis: 35%; margin-right: 1.5rem;')}
+
+    .player__thumbnail {
+      width: 100%;
+      display: flex;
+
+      &::before {
+        content: '';
+      }
+    }
+
+    .video-player {
+      display: none;
+    }
+  }
+
+  .medium__player--ready {
+    .player__thumbnail {
+      display: none;
+    }
+
+    .video-player {
+      display: block;
+    }
   }
 
   .medium__info {
@@ -46,7 +78,7 @@ const MediumContainer = styled.div`
   }
 
   .info__title {
-    margin: 1rem 0 0.5rem 0;
+    margin: 0.75rem 0 0.5rem 0;
 
     ${md('margin-top: 0.5rem;')}
   }

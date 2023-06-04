@@ -24,7 +24,7 @@ class MediaController < ApplicationController
       # for quick demo it could be here
       last_id = @media.last&.id
       @pagination[:page_url] = @pagination[:page_url].gsub(/(\d*&|\?)page=\d*/, after)
-      if last_id
+      if last_id && @media.size >= @pagination[:items]
         @pagination[:next_url] = @pagination[:next_url].gsub(/(\d*&|\?)page=\d*/, last_id.to_s)
       else
         @pagination[:next_url] = ""

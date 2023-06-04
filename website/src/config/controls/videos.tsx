@@ -4,19 +4,21 @@ import 'plyr/src/sass/plyr.scss'
 
 interface VideoPlayerProps {
   url: string
+  onReady?: () => void
 }
-export const VideoPlayer: React.FC<VideoPlayerProps> = ({ url }) => {
+export const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, onReady }) => {
   return (
     <div className='video-player'>
-      <YoutubePlayer id={url.replace(/^[^:/]+[:/]/, '')} />
+      <YoutubePlayer id={url.replace(/^[^:/]+[:/]/, '')} onReady={onReady} />
     </div>
   )
 }
 
 interface YoutubePlayerProps {
   id: string
+  onReady?: () => void
 }
-export const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ id }) => {
+export const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ id, onReady }) => {
   const video = useRef<HTMLDivElement>(null)
   const player = useRef<Plyr>()
 
@@ -29,8 +31,13 @@ export const YoutubePlayer: React.FC<YoutubePlayerProps> = ({ id }) => {
         clickToPlay: false,
         settings: [],
         hideControls: false,
-        muted: false
+        muted: false,
+        ratio: '16:9'
       })
+
+      if (onReady) {
+        player.current.on('ready', onReady)
+      }
     }
   }, [])
 

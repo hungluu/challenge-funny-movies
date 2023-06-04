@@ -68,7 +68,7 @@ export class AuthService implements IAuthService {
 
       return { error: !isLoggedIn, exists, messages: errorMessages }
     } catch (err: any) {
-      return { error: false, exists, messages: [err.message] }
+      return { error: true, exists, messages: [err.message] }
     }
   }
 
