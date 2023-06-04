@@ -11,7 +11,7 @@ describe('MediaService#list', () => {
 
   it('should list media from api and provide next pagination url', async () => {
     const mockMedia = [{ url: 'test.local' }, { url: 'test2.local' }]
-    const mockPagination = { nextUrl: 'api.local/next' }
+    const mockPagination = { next_url: 'api.local/next' }
 
     jest.spyOn(mockFmApi, 'get').mockResolvedValueOnce({
       data: {
@@ -22,7 +22,7 @@ describe('MediaService#list', () => {
 
     expect(await service.list()).toEqual(expect.objectContaining({
       data: expect.arrayContaining(mockMedia),
-      nextUrl: mockPagination.nextUrl
+      nextUrl: mockPagination.next_url
     }))
   })
 

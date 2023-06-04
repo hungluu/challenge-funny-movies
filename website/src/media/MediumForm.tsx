@@ -28,7 +28,6 @@ const MediumForm = () => {
             name='url'
             label='Share Youtube URL'
             onChange={ev => {
-              console.log(ev.target.value)
               void media.preview(ev.target.value)
             }}
           />

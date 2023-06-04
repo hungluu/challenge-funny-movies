@@ -31,7 +31,12 @@ export class MediaStore implements IMediaStore {
   }
 
   async list () {
-    return await this.fetchItems('/media?after=0')
+    const { items, errors } = await this.fetchItems('/media?after=0')
+
+    this.items = items
+    this.listErrors = errors
+
+    return !errors.length
   }
 
   async next () {
@@ -39,7 +44,13 @@ export class MediaStore implements IMediaStore {
       return false
     }
 
-    return await this.fetchItems(this.nextUrl)
+    const { items, errors } = await this.fetchItems(this.nextUrl)
+
+    items.forEach(item => this.items.push(item))
+    // this.items = this.items.concat(items)
+    this.listErrors = errors
+
+    return !errors.length
   }
 
   async preview (url: string) {
@@ -80,13 +91,15 @@ export class MediaStore implements IMediaStore {
     this.nextUrl = nextUrl
 
     if (!error) {
-      this.items = data
-
-      return true
+      return {
+        items: data || [],
+        errors: []
+      }
     } else {
-      this.listErrors = messages || []
-
-      return false
+      return {
+        items: [],
+        errors: messages || []
+      }
     }
   }
 }

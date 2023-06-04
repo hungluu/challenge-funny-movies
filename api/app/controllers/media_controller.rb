@@ -10,7 +10,8 @@ class MediaController < ApplicationController
   def index
     if params[:after].present?
       after = params[:after]
-      @pagy, @media = pagy_cursor(Medium.all, after: after, order: { created_at: :desc })
+      puts after
+      @pagy, @media = pagy_cursor(Medium.all, before: after.to_i > 0 ? after : '', order: { updated_at: :desc })
       @pagy.vars[:metadata] = [
         :page_url,
         :next_url,
@@ -30,7 +31,7 @@ class MediaController < ApplicationController
         @pagination[:next_url] = ""
       end
     else
-      @pagy, @media = pagy(Medium.order(created_at: :desc).all)
+      @pagy, @media = pagy(Medium.order(updated_at: :desc).order(id: :asc).all)
       @pagy.vars[:metadata] = [
         :page_url,
         :next_url,

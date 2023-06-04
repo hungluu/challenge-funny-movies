@@ -15,7 +15,7 @@ export class MediaService implements IMediaService {
 
       return {
         error: !data || messages?.length > 0,
-        nextUrl: pagination?.nextUrl || '',
+        nextUrl: pagination?.next_url || '',
         data,
         messages
       }
