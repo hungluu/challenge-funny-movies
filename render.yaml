@@ -1,0 +1,40 @@
+services:
+  # A Docker web service
+  - type: web
+    name: api
+    env: docker
+    rootDir: api
+    healthCheckPath: /health
+    envVars:
+      - key: POSTGRES_URL
+        fromDatabase:
+          name: db
+          property: host
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: db
+          property: password
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: db
+          property: database
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cache
+          property: hostport
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      - key: API_SECRET
+        generateValue: true
+  - type: redis
+    name: cache
+    ipAllowList: [] # only allow internal connections
+
+databases:
+  - name: db
+    databaseName: apidb
