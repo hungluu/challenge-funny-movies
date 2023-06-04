@@ -11,7 +11,7 @@ export class MediaService implements IMediaService {
       }
 
       const response = await this.api.get(url)
-      const { media: data, pagination, errors: messages } = response.data
+      const { data, pagination, errors: messages } = response.data
 
       return {
         error: !data || messages?.length > 0,
@@ -27,11 +27,30 @@ export class MediaService implements IMediaService {
   async preview (url: string) {
     try {
       if (!url) {
-        throw Error('MediaService.preview url should be provided')
+        throw Error('preview url should be provided')
       }
 
       const response = await this.api.get('/media/preview?url=' + encodeURIComponent(url))
-      const { preview: data, errors: messages } = response.data
+      const { data, errors: messages } = response.data
+
+      return {
+        error: !data || messages?.length > 0,
+        data,
+        messages
+      }
+    } catch (err: any) {
+      return { data: undefined, error: true, messages: [err.message] }
+    }
+  }
+
+  async share (url: string) {
+    try {
+      if (!url) {
+        throw Error('MediaService.share url should be provided')
+      }
+
+      const response = await this.api.post('/media', { url })
+      const { data, errors: messages } = response.data
 
       return {
         error: !data || messages?.length > 0,

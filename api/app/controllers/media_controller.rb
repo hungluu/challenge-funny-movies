@@ -43,7 +43,7 @@ class MediaController < ApplicationController
       @pagination = pagy_metadata(@pagy)
     end
 
-    render json: { media: @media, pagination: @pagination }
+    render json: { data: @media, pagination: @pagination }
   end
 
   # POST /media
@@ -61,7 +61,7 @@ class MediaController < ApplicationController
       )
 
       if @medium.save
-        render json: @medium, status: :created
+        render json: { data: @medium }, status: :created
       else
         render json: { errors: @medium.errors }, status: :unprocessable_entity
       end
@@ -80,7 +80,7 @@ class MediaController < ApplicationController
         url: params[:url]
       }
 
-      render json: { preview: preview }, status: :ok
+      render json: { data: preview }, status: :ok
     rescue Exception => e
       render json: { errors: [e.message] }, status: :unprocessable_entity
     end

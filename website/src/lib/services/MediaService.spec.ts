@@ -2,7 +2,8 @@ import { type IApi } from '../interfaces'
 import { MediaService } from './MediaService'
 
 const mockFmApi = {
-  get: jest.fn()
+  get: jest.fn(),
+  post: jest.fn()
 } as unknown as IApi
 
 describe('MediaService#list', () => {
@@ -14,7 +15,7 @@ describe('MediaService#list', () => {
 
     jest.spyOn(mockFmApi, 'get').mockResolvedValueOnce({
       data: {
-        media: mockMedia,
+        data: mockMedia,
         pagination: mockPagination
       }
     })
@@ -59,9 +60,7 @@ describe('MediaService#preview', () => {
     const mockPreview = { name: 'Test' }
 
     jest.spyOn(mockFmApi, 'get').mockResolvedValueOnce({
-      data: {
-        preview: mockPreview
-      }
+      data: { data: mockPreview }
     })
 
     expect(await service.preview(testUrl)).toEqual(expect.objectContaining({ data: mockPreview }))
@@ -85,6 +84,45 @@ describe('MediaService#preview', () => {
 
   it('should require url to be passed in', async () => {
     expect(await service.preview('')).toEqual(expect.objectContaining({
+      error: true
+    }))
+  })
+})
+
+describe('MediaService#share', () => {
+  const service = new MediaService(mockFmApi)
+
+  it('should allow sharing new media', async () => {
+    const testUrl = 'http://test.local'
+    const mockData = { url: testUrl }
+
+    jest.spyOn(mockFmApi, 'post').mockResolvedValueOnce({
+      data: {
+        data: mockData
+      }
+    })
+
+    expect(await service.share(testUrl)).toEqual(expect.objectContaining({ data: mockData }))
+    expect(mockFmApi.post).toHaveBeenLastCalledWith('/media', { url: testUrl })
+  })
+
+  it('should capture errors from previewing media', async () => {
+    const testUrl = 'http://test.local'
+
+    jest.spyOn(mockFmApi, 'post').mockResolvedValue({
+      data: {
+        errors: ['Test Error']
+      }
+    })
+
+    expect(await service.share(testUrl)).toEqual(expect.objectContaining({
+      error: true,
+      messages: expect.arrayContaining(['Test Error'])
+    }))
+  })
+
+  it('should require url to be passed in', async () => {
+    expect(await service.share('')).toEqual(expect.objectContaining({
       error: true
     }))
   })

@@ -24,8 +24,8 @@ RSpec.describe "/media", type: :request do
 
       expect(response).to have_http_status(:ok)
       response_body = JSON.parse(response.body)
-      expect(response_body['media']).to be_an(Array)
-      expect(response_body['media'].size).to eq(5)
+      expect(response_body['data']).to be_an(Array)
+      expect(response_body['data'].size).to eq(5)
 
       model.clean
     end
@@ -105,8 +105,8 @@ RSpec.describe "/media", type: :request do
       expect(response.content_type).to match(a_string_including("application/json"))
 
       response_body = JSON.parse(response.body)
-      expect(response_body['preview']).to be_an(Object)
-      expect(response_body['preview']['title']).to eq(fakedTitle)
+      expect(response_body['data']).to be_an(Object)
+      expect(response_body['data']['name']).to eq(fakedTitle)
     end
 
     it "renders json error for invalid url" do
