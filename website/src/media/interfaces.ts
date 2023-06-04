@@ -7,6 +7,7 @@ export interface IMediaStore {
   list: () => Promise<boolean>
   next: () => Promise<boolean>
 
+  isShareFormOpened: boolean
   shareErrors: string[]
   sharePreview: Omit<IMedium, 'user'> | null
   preview: (url: string) => Promise<boolean>

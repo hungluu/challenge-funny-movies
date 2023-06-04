@@ -5,7 +5,7 @@ import { observer, store } from '../contexts'
 import PageHeaderUser from './PageHeaderUser'
 
 const PageHeader = () => {
-  const { auth } = store()
+  const { auth, media } = store()
 
   return (
     <header>
@@ -16,7 +16,13 @@ const PageHeader = () => {
           </h1>
 
           <section className='navbar__right'>
-            {auth.user && (<PageHeaderUser user={auth.user} onLogout={() => { void auth.logout() }} />)}
+            {auth.user && (
+              <PageHeaderUser
+                user={auth.user}
+                onLogout={() => { void auth.logout() }}
+                onShareClick={() => { media.isShareFormOpened = true }}
+                shareClicked={media.isShareFormOpened}
+              />)}
             {!auth.user && (<CompactAuthForm />)}
           </section>
         </div>

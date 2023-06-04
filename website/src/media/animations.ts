@@ -17,3 +17,13 @@ export const useMediumAnimator = () => {
 
   return scope
 }
+
+export const useMediumFormAnimator = () => {
+  const [scope, animate] = useAnimate()
+
+  useEffect(() => { // startup
+    void animate(scope.current, { opacity: [0, 1], y: [-20, 0] }, { duration: 0.4 })
+  }, [])
+
+  return scope
+}

@@ -8,12 +8,14 @@ import { useMediumAnimator } from './animations'
 export interface IMediumProps {
   name: string
   description?: string
-  url: string
-  userId: string
+  url?: string
+  userId?: string
   thumbnail: string
+  className?: string
 }
 
 const Medium: React.FC<IMediumProps> = ({
+  className,
   name,
   description,
   url,
@@ -24,15 +26,17 @@ const Medium: React.FC<IMediumProps> = ({
   const animator = useMediumAnimator()
 
   return (
-    <MediumContainer className='medium' ref={animator}>
+    <MediumContainer className={classnames('medium', className)} ref={animator}>
       <div className={classnames('medium__player', isReady && 'medium__player--ready')}>
         <img src={thumbnail} className='player__thumbnail' />
-        <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />
+        {url && <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />}
       </div>
       <div className='medium__info'>
         <h4 className='info__title'>{name}</h4>
-        <p className='info__user'>{userId}</p>
-        <p className='info__description'>{description?.replace(/(?:[\w]+:\/\/)[^ ]+/ig, '')}</p>
+        {userId && (<p className='info__user'>{userId}</p>)}
+        {description && (
+          <p className='info__description'>{description?.replace(/(?:[\w]+:\/\/)[^ ]+/ig, '')}</p>
+        )}
       </div>
     </MediumContainer>
   )
@@ -43,6 +47,7 @@ const MediumContainer = styled.div`
   flex-wrap: wrap;
   padding: 0;
   padding-bottom: 1.25rem;
+  font-size: 1rem;
 
   .medium__player {
     flex-basis: 100%;
@@ -91,7 +96,7 @@ const MediumContainer = styled.div`
   .info__user {
     margin: 0;
     margin-bottom: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.8em;
     line-height: 1.2rem;
     font-weight: 200;
 
@@ -102,13 +107,13 @@ const MediumContainer = styled.div`
       font-weight: normal;
     }
 
-    ${lg('font-size: 1rem')}
+    ${lg('font-size: 1em')}
   }
 
   .info__description {
     margin: 0;
-    font-size: 0.8rem;
-    line-height: 1.2rem;
+    font-size: 0.8em;
+    line-height: 1.2em;
     font-weight: 200;
 
     &::before {
@@ -118,7 +123,7 @@ const MediumContainer = styled.div`
       margin-bottom: 0.125rem;
     }
 
-    ${lg('font-size: 1rem')}
+    ${lg('font-size: 1em')}
   }
 `
 

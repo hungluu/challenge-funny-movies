@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { observer, store } from '../config/contexts'
 import Medium from './Medium'
 import MediumLoader from './MediumLoader'
+import MediumForm from './MediumForm'
 
 const MediumList: React.FC = () => {
   const { media } = store()
@@ -11,15 +12,16 @@ const MediumList: React.FC = () => {
   // start up
   useEffect(() => {
     setIsLoading(true)
-    void media.list().then(() => { setIsLoading(false) })
+    void media.list().finally(() => { setIsLoading(false) })
   }, [])
 
   return (
     <MediumListContainer>
+      <MediumForm />
       {isLoading && [...Array(3)].map((_, idx) => (
         <MediumLoader key={`loader:${idx}`} />
       ))}
-      {!isLoading && media.items.map(item =>
+      {!isLoading && !media.isShareFormOpened && media.items.map(item =>
         <Medium
           key={item.id}
           name={item.name}

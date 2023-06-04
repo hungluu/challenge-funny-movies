@@ -8,11 +8,22 @@ export class MediaStore implements IMediaStore {
   listErrors: string[] = []
   private nextUrl = ''
 
+  _isShareFormOpened = false
   sharePreview: Omit<IMedium, 'user'> | null = null
   shareErrors: string[] = []
 
   constructor (private readonly service: IMediaService) {
     makeAutoObservable(this)
+  }
+
+  get isShareFormOpened () {
+    return this._isShareFormOpened
+  }
+
+  set isShareFormOpened (opened: boolean) {
+    this._isShareFormOpened = opened
+    this.shareErrors = []
+    this.sharePreview = null
   }
 
   get hasMore () {
