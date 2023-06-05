@@ -1,3 +1,4 @@
+import { type IAppStore } from '../config/interfaces'
 import type { IMediaService } from '../lib/interfaces'
 import type { IMedium } from '../lib/models'
 import type { IMediaStore } from './interfaces'
@@ -12,7 +13,7 @@ export class MediaStore implements IMediaStore {
   sharePreview: Omit<IMedium, 'user'> | null = null
   shareErrors: string[] = []
 
-  constructor (private readonly service: IMediaService) {
+  constructor (private readonly store: IAppStore, private readonly service: IMediaService) {
     makeAutoObservable(this)
   }
 
@@ -30,8 +31,8 @@ export class MediaStore implements IMediaStore {
     return Boolean(this.nextUrl)
   }
 
-  async list () {
-    const { items, errors } = await this.fetchItems('/media?after=0')
+  async list (url = '/media?after=0') {
+    const { items, errors } = await this.fetchItems(url)
 
     this.items = items
     this.listErrors = errors
@@ -56,7 +57,9 @@ export class MediaStore implements IMediaStore {
   async preview (url: string) {
     this.sharePreview = null
     this.shareErrors = []
-    const { data, error, messages } = await this.service.preview(url)
+    const { data, error, messages, status } = await this.service.preview(url)
+
+    this.checkAuth(status)
 
     if (!error) {
       this.sharePreview = data || null
@@ -71,7 +74,9 @@ export class MediaStore implements IMediaStore {
 
   async share (url: string) {
     this.shareErrors = []
-    const { data, error, messages } = await this.service.share(url)
+    const { data, error, messages, status } = await this.service.share(url)
+
+    this.checkAuth(status)
 
     if (!error && data) {
       this.items = [data, ...this.items]
@@ -86,7 +91,9 @@ export class MediaStore implements IMediaStore {
 
   private async fetchItems (url: string) {
     this.listErrors = []
-    const { data, nextUrl, error, messages } = await this.service.list(url)
+    const { data, nextUrl, error, messages, status } = await this.service.list(url)
+
+    this.checkAuth(status)
 
     this.nextUrl = nextUrl
 
@@ -100,6 +107,13 @@ export class MediaStore implements IMediaStore {
         items: [],
         errors: messages || []
       }
+    }
+  }
+
+  private checkAuth (status: number) {
+    if (status === 401) {
+      console.log('[media:store] authorized')
+      void this.store.auth.logout()
     }
   }
 }

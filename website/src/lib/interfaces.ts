@@ -1,10 +1,14 @@
 import type { AxiosInstance } from 'axios'
 import type { IMedium, IUser } from './models'
+import type { Consumer, Subscription } from '@rails/actioncable'
 
 export type IApi = AxiosInstance
 export type IStorageService = Pick<WindowLocalStorage['localStorage'], 'getItem' | 'setItem' | 'removeItem'>
+export type ICableApi = Consumer
+export type ICableApiSub = Subscription<ICableApi>
 
 export interface IApiResult {
+  status: number
   error: boolean
   messages?: string[]
 }

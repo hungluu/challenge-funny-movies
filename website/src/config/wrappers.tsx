@@ -1,11 +1,11 @@
-import React, { type FunctionComponent, type ReactNode, StrictMode } from 'react'
+import React, { type ReactNode, StrictMode } from 'react'
 import ErrorBoundary from './errors/ErrorBoundary'
 import PageLayout from './layouts/PageLayout'
 
-import 'normalize.css'
-import '../assets/styles/root.css'
 import { ServicesContext, StoreContext } from './contexts'
-import { AppStore, appServices } from './bootstrap'
+import { appStore, appServices } from './bootstrap'
+
+import { GlobalStyles } from './wrapGlobalStyles'
 
 // Instantiating store in `wrapRootElement` handler ensures:
 //  - there is fresh store for each SSR page
@@ -13,11 +13,11 @@ import { AppStore, appServices } from './bootstrap'
 interface IWrapRootElementProps {
   element: ReactNode
 }
-const WrapRootElement: FunctionComponent<IWrapRootElementProps> = ({ element }) => {
+export const wrapRootElement: React.FC<IWrapRootElementProps> = ({ element }) => {
   return (
     <StrictMode>
       <ErrorBoundary>
-        <StoreContext.Provider value={new AppStore()}>
+        <StoreContext.Provider value={appStore}>
           <ServicesContext.Provider value={appServices}>
             <PageLayout>
               {element}
@@ -29,4 +29,9 @@ const WrapRootElement: FunctionComponent<IWrapRootElementProps> = ({ element }) 
   )
 }
 
-export default WrapRootElement
+export const wrapPageElement: React.FC<IWrapRootElementProps> = ({ element }) => (
+  <>
+    <GlobalStyles />
+    {element}
+  </>
+)

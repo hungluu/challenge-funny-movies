@@ -132,9 +132,8 @@ const MediumFormContainer = styled.div`
     -webkit-text-fill-color: transparent;
   }
 
-  .form__url {
-    width: 500px;
-    max-width: 100%;
+  .field__input.form__url {
+    width: 100%;
 
     border-color: #069;
     border-width: 4px;
@@ -143,7 +142,7 @@ const MediumFormContainer = styled.div`
     transition: all ease-in-out 0.2s;
   }
 
-  .form__url:focus, .form__url:active {
+  .field__input.form__url:focus, .field__input.form__url:active {
     border-image: linear-gradient(to left, red, #069) 1 1 1;
   }
 

@@ -4,7 +4,7 @@ export interface IMediaStore {
   items: IMedium[]
   listErrors: string[]
   hasMore: boolean
-  list: () => Promise<boolean>
+  list: (url?: string) => Promise<boolean>
   next: () => Promise<boolean>
 
   isShareFormOpened: boolean

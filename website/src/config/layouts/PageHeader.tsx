@@ -12,7 +12,7 @@ const PageHeader = () => {
       <Navbar className='page-navbar'>
         <div className='navbar__container'>
           <h1 className='navbar__logo'>
-            Funny Movies
+            <a href='/'>Funny Movies</a>
           </h1>
 
           <section className='navbar__right'>

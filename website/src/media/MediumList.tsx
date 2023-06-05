@@ -21,8 +21,7 @@ const MediumList: React.FC = () => {
     }
   })
 
-  // start up
-  useEffect(() => {
+  useEffect(() => { // start up
     setIsLoading(true)
     void media.list().finally(() => { setIsLoading(false) })
   }, [])

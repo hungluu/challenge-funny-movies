@@ -15,12 +15,13 @@ export class MediaService implements IMediaService {
 
       return {
         error: !data || messages?.length > 0,
+        status: response.status,
         nextUrl: pagination?.next_url || '',
         data,
         messages
       }
     } catch (err: any) {
-      return { data: [], nextUrl: '', error: true, messages: [err.message] }
+      return { status: 0, data: [], nextUrl: '', error: true, messages: [err.message] }
     }
   }
 
@@ -35,11 +36,12 @@ export class MediaService implements IMediaService {
 
       return {
         error: !data || messages?.length > 0,
+        status: response.status,
         data,
         messages
       }
     } catch (err: any) {
-      return { data: undefined, error: true, messages: [err.message] }
+      return { status: 0, data: undefined, error: true, messages: [err.message] }
     }
   }
 
@@ -54,11 +56,12 @@ export class MediaService implements IMediaService {
 
       return {
         error: !data || messages?.length > 0,
+        status: response.status,
         data,
         messages
       }
     } catch (err: any) {
-      return { data: undefined, error: true, messages: [err.message] }
+      return { status: 0, data: undefined, error: true, messages: [err.message] }
     }
   }
 }

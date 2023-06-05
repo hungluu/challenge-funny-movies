@@ -1,5 +1,5 @@
-import type { RefObject } from 'react'
-import { useScroll, useMotionValueEvent } from 'framer-motion'
+import { type RefObject, useRef, useEffect, type MutableRefObject } from 'react'
+import { useScroll, useMotionValueEvent, useInView } from 'framer-motion'
 
 export interface IInfiniteScrollParams {
   onTriggered: () => void
@@ -24,4 +24,25 @@ export const useInfiniteScroll = ({
       onTriggered()
     }
   })
+}
+
+export interface IInViewScrollParams {
+  onInView?: () => void
+  onOutView?: () => void
+}
+export const useInViewScroll = ({ onInView, onOutView }: IInViewScrollParams = {}): [MutableRefObject<any>, boolean] => {
+  const ref = useRef(null)
+  const isInView = useInView(ref)
+
+  if (onInView || onOutView) {
+    useEffect(() => {
+      if (isInView && onInView) {
+        onInView()
+      } else if (!isInView && onOutView) {
+        onOutView()
+      }
+    }, [isInView])
+  }
+
+  return [ref, isInView]
 }

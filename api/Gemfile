@@ -64,3 +64,5 @@ gem "video_info", "~> 4.0"
 gem "pagy", "~> 6.0"
 
 gem "pagy_cursor", "~> 0.6.0"
+
+gem "redis", "~> 5.0"

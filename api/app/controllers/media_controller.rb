@@ -10,7 +10,6 @@ class MediaController < ApplicationController
   def index
     if params[:after].present?
       after = params[:after]
-      puts after
       @pagy, @media = pagy_cursor(Medium.all, before: after.to_i > 0 ? after : '', order: { updated_at: :desc })
       @pagy.vars[:metadata] = [
         :page_url,
@@ -63,6 +62,16 @@ class MediaController < ApplicationController
 
       if @medium.save
         render json: { data: @medium }, status: :created
+
+        ActionCable.server.broadcast(:media_channel, {
+          type: "media:create",
+          data: {
+            id: @medium.id,
+            name: @medium.name,
+            user_id: @medium.user.email,
+            created_at: @medium.created_at
+          }
+        })
       else
         render json: { errors: @medium.errors }, status: :unprocessable_entity
       end
