@@ -38,6 +38,14 @@ const PageHeaderUserContainer = styled.div`
 
   justify-content: flex-end;
 
+  .header__user__email {
+    white-space: break-spaces;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    padding-right: 1rem;
+  }
+
   .header__user__email::before {
     content: '👋';
     margin-right: 0.3rem;

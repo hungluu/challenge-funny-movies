@@ -3,6 +3,7 @@ import { AuthService } from '../lib/services/AuthService'
 import { MediaService } from '../lib/services/MediaService'
 import type { IMediaStore } from '../media/interfaces'
 import { MediaStore } from '../media/store'
+import { type IMediumNotification } from '../notifications/interfaces'
 import { NotificationStore } from '../notifications/store'
 import type { IAppServices, IAppStore } from './interfaces'
 
@@ -19,4 +20,28 @@ export class AppStore implements IAppStore {
 
 export const appStore = new AppStore()
 
-// Bind notification events
+const setupNotifications = async () => {
+  const store = appStore.notification
+
+  await store.setup()
+
+  store.on('media:create', (medium: IMediumNotification) => {
+    store.items = [
+      {
+        message: `[${medium.user_id}] shared [${medium.name}]`,
+        action: `media:list /media?after=${medium.id}`
+      },
+      ...store.items
+    ]
+  })
+
+  store.on('action:media:list', url => {
+    if (!url) {
+      return
+    }
+
+    void appStore.media.list(url)
+  })
+}
+
+void setupNotifications()

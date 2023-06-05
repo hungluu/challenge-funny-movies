@@ -31,8 +31,8 @@ export class MediaStore implements IMediaStore {
     return Boolean(this.nextUrl)
   }
 
-  async list () {
-    const { items, errors } = await this.fetchItems('/media?after=0')
+  async list (url = '/media?after=0') {
+    const { items, errors } = await this.fetchItems(url)
 
     this.items = items
     this.listErrors = errors
@@ -111,9 +111,8 @@ export class MediaStore implements IMediaStore {
   }
 
   private checkAuth (status: number) {
-    console.log(status)
     if (status === 401) {
-      console.log('Not authorized')
+      console.log('[media:store] authorized')
       void this.store.auth.logout()
     }
   }

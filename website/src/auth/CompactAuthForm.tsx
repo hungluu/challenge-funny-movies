@@ -81,7 +81,7 @@ const CompactAuthForm: React.FC = () => {
         >
           {
           !hasErrors
-            ? `Do you want to register new account with this email address ${email}?`
+            ? `Do you want to register new account with this email address: ${email}?`
             : 'There are some errors during registration'
           }
         </PageModal>
@@ -99,6 +99,12 @@ const CompactAuthFormContainer = styled.div`
   .error__item::before {
     content: '•';
     margin-right: 0.25rem;
+  }
+
+  .dialog__contents {
+    white-space: break-spaces;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 

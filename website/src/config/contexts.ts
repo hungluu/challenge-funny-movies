@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import type { IAppServices, IAppStore } from './interfaces'
-import { appServices, appStore } from './bootstrap'
+import { appStore, appServices } from './bootstrap'
 
 export { observer } from 'mobx-react-lite'
 

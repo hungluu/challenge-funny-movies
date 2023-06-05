@@ -1,10 +1,16 @@
 export interface INotification {
   message: string
-  actionUrl?: string
+  action?: string
 }
 
 export interface INotificationStore {
   items: INotification[]
 
-  subscribe: () => Promise<void>
+  setup: () => Promise<void>
+}
+
+export interface IMediumNotification {
+  id: number
+  user_id: string
+  name: string
 }

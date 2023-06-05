@@ -1,17 +1,31 @@
 import type { ICableApi, ICableApiSub } from '../lib/interfaces'
 import { EventEmitter } from 'eventemitter3'
 import type { INotification, INotificationStore } from './interfaces'
+import { action, makeObservable, observable } from 'mobx'
 
 export class NotificationStore extends EventEmitter implements INotificationStore {
   items: INotification[] = []
+
   private api?: ICableApi
   private sub?: ICableApiSub
   private isLoadingApi = false
 
-  async subscribe () {
+  constructor () {
+    super()
+
+    makeObservable(this, {
+      items: observable,
+      onMessage: action
+    })
+  }
+
+  async setup () {
+    if (this.isLoadingApi) {
+      return
+    }
+
     if (
       !this.api &&
-      !this.isLoadingApi &&
       typeof window !== 'undefined' // @rails/actioncable has reference errors on SSR
     ) {
       this.isLoadingApi = true
@@ -27,12 +41,12 @@ export class NotificationStore extends EventEmitter implements INotificationStor
       }, {
         connected: () => { console.info('[notification] connected') },
         disconnected: () => { console.info('[notification] disconnected') },
-        received: (data) => { this.onMessage(data) }
+        received: data => { this.onMessage(data) }
       })
     }
   }
 
-  private onMessage (message: any) {
+  onMessage (message: any) {
     const type = message?.type
     const data = message?.data
 
@@ -40,8 +54,6 @@ export class NotificationStore extends EventEmitter implements INotificationStor
       return
     }
 
-    console.log(message)
-
-    this.emit(type, data, this)
+    this.emit(type, data)
   }
 }

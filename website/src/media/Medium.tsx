@@ -119,6 +119,11 @@ const MediumContainer = styled.div`
     }
 
     ${lg('font-size: 1em')}
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
   }
 
   .info__description {
