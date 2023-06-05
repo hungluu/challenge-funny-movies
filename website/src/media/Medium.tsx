@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import classnames from 'classnames'
 import { lg, md } from '../config/controls/responsive'
 import { useMediumAnimator } from './animations'
+import { useInViewScroll } from '../config/controls/scrolls'
 
 const VideoPlayer = lazy(async () => {
   const { VideoPlayer } = await import('../config/controls/videos')
@@ -29,14 +30,21 @@ const Medium: React.FC<IMediumProps> = ({
   thumbnail,
   userId
 }) => {
-  const [isReady, setIsReady] = useState(false)
   const animator = useMediumAnimator()
+  const [isReady, setIsReady] = useState(false)
+  const [inViewRef, isInView] = useInViewScroll()
 
   return (
     <MediumContainer className={classnames('medium', className)} ref={animator}>
-      <div className={classnames('medium__player', isReady && 'medium__player--ready')}>
+      <div
+        className={classnames(
+          'medium__player',
+          isReady && isInView && 'medium__player--ready',
+          isInView && 'medium__player--viewed')}
+        ref={inViewRef}
+      >
         <img src={thumbnail} className='player__thumbnail' />
-        {url && (
+        {url && isInView && (
           <Suspense>
             <VideoPlayer url={url} onReady={() => { setIsReady(true) }} />
           </Suspense>
@@ -65,6 +73,7 @@ const MediumContainer = styled.div`
     width: 100%;
     aspect-ratio: 16/9;
     background: #dfdfdf;
+    position: relative;
 
     ${md('flex-basis: 35%; margin-right: 1rem;')}
     ${lg('margin-right: 1.5rem;')}
@@ -73,6 +82,7 @@ const MediumContainer = styled.div`
       width: 100%;
       display: flex;
       opacity: 0.9;
+      position: absolute;
 
       &::before {
         content: '';
@@ -82,12 +92,19 @@ const MediumContainer = styled.div`
     .video-player {
       display: none;
     }
+
+    .plyr__video-wrapper {
+      background: transparent;
+    }
+    .plyr__poster {
+      background-color: transparent;
+    }
   }
 
-  .medium__player--ready {
-    .player__thumbnail {
+  .medium__player--ready.medium__player--viewed {
+    /* .player__thumbnail {
       display: none;
-    }
+    } */
 
     .video-player {
       display: block;
