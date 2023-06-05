@@ -40,9 +40,9 @@ export class AuthService implements IAuthService {
         isLoggedIn = Boolean(this.user)
       }
 
-      return { error: !isLoggedIn, messages: response.data?.errors || [] }
+      return { status: response?.status, error: !isLoggedIn, messages: response.data?.errors || [] }
     } catch (err: any) {
-      return { error: true, messages: [err.message] }
+      return { status: 0, error: true, messages: [err.message] }
     }
   }
 
@@ -64,9 +64,9 @@ export class AuthService implements IAuthService {
         exists = !errorMessages.some(message => /not found/i.test(message))
       }
 
-      return { error: !isLoggedIn, exists, messages: errorMessages }
+      return { status: response?.status, error: !isLoggedIn, exists, messages: errorMessages }
     } catch (err: any) {
-      return { error: true, exists, messages: [err.message] }
+      return { status: 0, error: true, exists, messages: [err.message] }
     }
   }
 
@@ -75,11 +75,11 @@ export class AuthService implements IAuthService {
       this._user = undefined
       this._expiredAt = 0
       this.setToken()
-      await this.api.delete('/auth/logout')
+      const response = await this.api.delete('/auth/logout')
 
-      return { error: false }
+      return { status: response?.status, error: false }
     } catch (err: any) {
-      return { error: true, messages: [err.message] }
+      return { status: 0, error: true, messages: [err.message] }
     }
   }
 

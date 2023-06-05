@@ -25,7 +25,7 @@ export const onCreateWebpackConfig = ({ actions, plugins }: CreateWebpackConfigA
   actions.setWebpackConfig({
     plugins: [
       // Add the environment variables to webpack.DefinePlugin with define().
-      plugins.define(defines(/API_URL/))
+      plugins.define(defines(/API_URL|CABLE_URL/))
     ].filter(Boolean)
   })
 }

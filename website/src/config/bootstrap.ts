@@ -1,7 +1,9 @@
 import { AuthStore } from '../auth/store'
 import { AuthService } from '../lib/services/AuthService'
 import { MediaService } from '../lib/services/MediaService'
+import type { IMediaStore } from '../media/interfaces'
 import { MediaStore } from '../media/store'
+import { NotificationStore } from '../notifications/store'
 import type { IAppServices, IAppStore } from './interfaces'
 
 export const appServices: IAppServices = {
@@ -11,7 +13,10 @@ export const appServices: IAppServices = {
 
 export class AppStore implements IAppStore {
   auth = new AuthStore(appServices.auth, appServices.auth.user)
-  media = new MediaStore(appServices.media)
+  media: IMediaStore = new MediaStore(this, appServices.media)
+  notification = new NotificationStore()
 }
 
 export const appStore = new AppStore()
+
+// Bind notification events

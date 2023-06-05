@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import PageHeader from './PageHeader'
 import styled from 'styled-components'
 import { lg } from '../controls/responsive'
+import PageFooter from './PageFooter'
 
 const PageLayout: React.FC<IProps> = ({ children }) => {
   const pageConstructorName = (children as any).type?.name || ''
@@ -18,6 +19,7 @@ const PageLayout: React.FC<IProps> = ({ children }) => {
       <main className='page-main' role='main'>
         {children}
       </main>
+      <PageFooter />
     </PageLayoutContainer>
   )
 }
