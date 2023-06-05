@@ -15,7 +15,8 @@ export class NotificationStore extends EventEmitter implements INotificationStor
 
     makeObservable(this, {
       items: observable,
-      onMessage: action
+      onMessage: action,
+      callAction: action
     })
   }
 
@@ -55,5 +56,15 @@ export class NotificationStore extends EventEmitter implements INotificationStor
     }
 
     this.emit(type, data)
+  }
+
+  callAction (action: string) {
+    const [type, param] = action.split(' ')
+
+    if (!type || !param) {
+      return
+    }
+
+    this.emit(`action:${type}`, param)
   }
 }

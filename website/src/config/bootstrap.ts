@@ -28,6 +28,7 @@ const setupNotifications = async () => {
   store.on('media:create', (medium: IMediumNotification) => {
     store.items = [
       {
+        id: medium.id,
         message: `[${medium.user_id}] shared [${medium.name}]`,
         action: `media:list /media?after=${medium.id}`
       },

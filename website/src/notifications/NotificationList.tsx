@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import { observer, store } from '../config/contexts'
 import styled from 'styled-components'
-import { StyledButton } from '../config/controls/buttons'
 import { motion } from 'framer-motion'
 
 const NotificationList: React.FC = () => {
@@ -16,7 +15,7 @@ const NotificationList: React.FC = () => {
 
           return (
             <motion.li
-              key={idx}
+              key={`notif:${item.id}}`}
               className='list__item'
               exit={{ opacity: 0, x: 0 }}
               initial={{ opacity: 1, x: 0 }}
@@ -52,7 +51,15 @@ const NotificationList: React.FC = () => {
                   )
                 })}
               </div>
-              <StyledButton title='view details' className='item__view' variant='transparent'>ᐅ</StyledButton>
+              {/* {item.action && (
+                <StyledButton
+                  title='view details'
+                  className='item__view'
+                  variant='transparent'
+                  onClick={() => { notification.callAction(item.action as string) }}
+                >ᐅ
+                </StyledButton>
+              )} */}
             </motion.li>
           )
         })}
