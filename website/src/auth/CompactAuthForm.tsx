@@ -84,6 +84,7 @@ const CompactAuthForm: React.FC = () => {
             ? `Do you want to register new account with this email address: ${email}?`
             : 'There are some errors during registration'
           }
+          {!hasErrors && (<small>(No verification required)</small>)}
         </PageModal>
       </Form>
     </CompactAuthFormContainer>

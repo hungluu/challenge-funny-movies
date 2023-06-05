@@ -4,7 +4,7 @@ Funny Movies
 
 A Youtube videos sharing apps - as a challenge with rails and react
 
-**🔥 Techstack**:
+**⚡ Techstack**:
 - [Rails 7][doc_rails] API ([Ruby v3]([doc_ruby])) built with Docker
   - [Pagy][doc_pagy] cursor pagination
   - [devise][doc_devise] jwt auth
@@ -13,7 +13,8 @@ A Youtube videos sharing apps - as a challenge with rails and react
 - [React v18][doc_react] with [Gatsby v5][doc_gatsby]
   - [mobx][doc_mobx] state management
   - [framer-motion][doc_motion] for animations
-- [End-to-end][doc_e2e] and unit testing covers both API ([rspec][doc_rspec]) and UI ([jest][doc_jest])
+- [E2E](#e2e-testing) and unit testing covers both API ([rspec][doc_rspec]) and UI ([jest][doc_jest])
+- [Github Actions](https://github.com/features/actions) CI for builds and deployment to [Render](https://render.com)
 
 **👀 Table of contents**:
 * [Development](#development)
@@ -24,6 +25,9 @@ A Youtube videos sharing apps - as a challenge with rails and react
     - [API unit tests with Rspec](#api-unit-testing)
     - [UI unit tests with Jest](#ui-unit-testing)
     - [E2E tests](#e2e-testing)
+* [Deployment](#deployment)
+  + [Build production](#build-production)
+  + [Render deployment](#render-deployment)
 * [Troubleshoot](#troubleshoot)
   + [Fix errors installing prerequisites](#fix-errors-installing-prerequisites)
   + [TS cannot find package declaration](#ts-cannot-find-package-declaration)
@@ -110,6 +114,27 @@ make e2e_test
 E2E tests are written with [jest][jest] and [puppeteer][doc_puppeteer], located in `tests/e2e`.
 
 About the test setup and config, see `tests/e2e/config`.
+
+Deployment
+-----
+### Build production
+
+To build production image and assets, please use these commands:
+
+```
+# build API production image
+make api_build
+
+# build UI production assets
+make ui_build
+```
+### Render deployment
+
+Both UI and API are deployed to render.com. You can review the API blueprint in file `./render.yarml`.
+
+Render URLs for:
+- UI: https://fm.rb.ms
+- API: https://fm-api.rb.ms
 
 Troubleshoot
 -----

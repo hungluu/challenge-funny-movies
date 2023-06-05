@@ -59,3 +59,4 @@ Rails.application.configure do
 end
 
 Rails.application.routes.default_url_options[:host] = ENV['API_URL'] || 'http://localhost:3000'
+Rails.application.config.action_cable.allowed_request_origins = ["http://localhost", "http://localhost:8000", "http://localhost:9000", "https://fm.rb.ms"]

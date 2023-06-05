@@ -55,3 +55,5 @@ api_build:
 		-f ./api/Dockerfile \
 		./api
 	@echo "Built ${LOCAL_IMAGE}:latest for ${PLATFORM}"
+ui_build:
+	@yarn && yarn website build

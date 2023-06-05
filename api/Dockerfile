@@ -47,6 +47,7 @@ COPY . .
 # non-root user
 USER root
 RUN chown -R bitnami:bitnami /app/config /app/db /app/tmp
+RUN chmod +x ./run.sh
 USER bitnami
 
-CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0", "-e", "production"]
+CMD ["/app/run.sh"]

@@ -1,1 +1,1 @@
-export { default as wrapRootElement } from './src/config/wrapRootElement'
+export { wrapRootElement, wrapPageElement } from './src/config/wrappers'

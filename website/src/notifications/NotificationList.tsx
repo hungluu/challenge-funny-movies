@@ -74,7 +74,7 @@ const NotificationListContainer = styled.section`
   right: 0;
   padding: 1rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 30rem;
 
   .list__items {
     list-style: none;
@@ -86,7 +86,7 @@ const NotificationListContainer = styled.section`
 
   .list__item {
     padding: 0.5rem;
-    padding-right: 2rem;
+    /* padding-right: 2rem; */
     background: #8c94ff;
     color: #fafafa;
     font-weight: 200;
@@ -119,6 +119,7 @@ const NotificationListContainer = styled.section`
   }
 
   .item__view {
+    display: none;
     font-weight: 200;
     width: 40px;
     padding: 0 0.125rem;
