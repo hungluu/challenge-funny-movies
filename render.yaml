@@ -2,6 +2,7 @@ services:
   # A Docker web service
   - type: web
     name: api
+    region: singapore
     env: docker
     rootDir: api
     healthCheckPath: /health
@@ -35,8 +36,10 @@ services:
         generateValue: true
   - type: redis
     name: cache
+    region: singapore
     ipAllowList: [] # only allow internal connections
 
 databases:
   - name: db
     databaseName: apidb
+    region: singapore

@@ -69,7 +69,7 @@ const CompactAuthForm: React.FC = () => {
         <PageModal
           title='Register'
           visible={isRegistration}
-          toggle={() => { setIsRegistration(!isRegistration) }}
+          toggle={() => { setIsRegistration(false) }}
           onConfirm={() => {
             if (!hasErrors) {
               void auth.register(email, password)
@@ -84,6 +84,7 @@ const CompactAuthForm: React.FC = () => {
             ? `Do you want to register new account with this email address: ${email}?`
             : 'There are some errors during registration'
           }
+          <br />
           {!hasErrors && (<small>(No verification required)</small>)}
         </PageModal>
       </Form>
