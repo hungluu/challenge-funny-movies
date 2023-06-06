@@ -4,7 +4,7 @@ Funny Movies
 
 A Youtube videos sharing apps - as a challenge with rails and react
 
-**⚡ Techstack**:
+**⚡ Techstack:**
 - [Rails 7][doc_rails] API ([Ruby v3]([doc_ruby])) built with Docker
   - [Pagy][doc_pagy] cursor pagination
   - [devise][doc_devise] jwt auth
@@ -16,7 +16,11 @@ A Youtube videos sharing apps - as a challenge with rails and react
 - [E2E](#e2e-testing) and unit testing covers both API ([rspec][doc_rspec]) and UI ([jest][doc_jest])
 - [Github Actions](https://github.com/features/actions) CI for builds and deployment to [Render](https://render.com)
 
-**👀 Table of contents**:
+**⭐ DEMO:** <a href="https://fm.rb.ms" target="_blank" title="Open Demo Website">https://fm.rb.ms</a>
+
+<details open>
+<summary><b>Table of Contents</b></summary>
+
 * [Development](#development)
   + [Prerequisites](#prerequisites)
   + [Init development](#init-development)
@@ -31,6 +35,8 @@ A Youtube videos sharing apps - as a challenge with rails and react
 * [Troubleshoot](#troubleshoot)
   + [Fix errors installing prerequisites](#fix-errors-installing-prerequisites)
   + [TS cannot find package declaration](#ts-cannot-find-package-declaration)
+* [Contribution](#contribution)
+</details>
 
 Development
 -----
@@ -149,11 +155,35 @@ Here are some handy troubleshooting references:
 - Ensure the JS package is packed with type declaration, or you need to install `@types/<package-name>`
 - Select the right TS version from yarn sdk, `ctrl shift P` (for macOS `cmd shift P`), click `Select Typescript Version...` and select workspace version
 
+Contribution
+-----
+
+All PRs and ideas for improvement are welcomed. 
+
+If you got any issues using this package, don't hesitate to create new [🐞 Bug report][issues].
+
+<details>
+<summary><b>Working on your first Pull Request?</b></summary>
+
+You can learn how from this free video series: [How to Contribute to an Open Source Project on GitHub](https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github)
+
+To help you get your feet wet and get you familiar with our contribution process, we have a list of good first issues that contain bugs that have a relatively limited scope. This is a great place to get started.
+</details>
+
+Feel free to clone this project, make changes that your feel necessary and pull request anytime you want.
+
+Install dependencies and run development build:
+```
+yarn install
+yarn start
+```
+
 -----
 Cheers 🍻
 
 [badge_build]: https://github.com/hungluu/challenge-funny-movies/actions/workflows/build.yml/badge.svg
 
+[issues]: https://github.com/hungluu/challenge-funny-movies/issues
 [doc_rspec]: https://rspec.info
 [doc_jest]: https://jestjs.io
 [doc_puppeteer]: https://pptr.dev
