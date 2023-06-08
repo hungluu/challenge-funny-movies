@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import CompactAuthForm from '../../auth/CompactAuthForm'
 import { observer, store } from '../contexts'
 import PageHeaderUser from './PageHeaderUser'
+import { usePageHeaderAnimator } from './animations'
 
 const PageHeader = () => {
   const { auth, media } = store()
+  const animator = usePageHeaderAnimator()
 
   return (
-    <header>
+    <header ref={animator}>
       <Navbar className='page-navbar'>
         <div className='navbar__container'>
           <h1 className='navbar__logo'>
@@ -40,6 +42,8 @@ const Navbar = styled.nav`
     flex-direction: row;
     align-items: center;
     box-shadow: 0 1px 1px -1px #000000fa;
+    overflow: hidden;
+    position: relative;
   }
 
   .navbar__logo {
@@ -72,6 +76,7 @@ const Navbar = styled.nav`
     margin-left: auto;
     flex-grow: 0;
     flex-shrink: 1;
+    opacity: 0;
   }
 `
 

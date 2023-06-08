@@ -19,9 +19,7 @@ export const wrapRootElement: React.FC<IWrapRootElementProps> = ({ element }) =>
       <ErrorBoundary>
         <StoreContext.Provider value={appStore}>
           <ServicesContext.Provider value={appServices}>
-            <PageLayout>
-              {element}
-            </PageLayout>
+            {element}
           </ServicesContext.Provider>
         </StoreContext.Provider>
       </ErrorBoundary>
@@ -32,6 +30,8 @@ export const wrapRootElement: React.FC<IWrapRootElementProps> = ({ element }) =>
 export const wrapPageElement: React.FC<IWrapRootElementProps> = ({ element }) => (
   <>
     <GlobalStyles />
-    {element}
+    <PageLayout>
+      {element}
+    </PageLayout>
   </>
 )
