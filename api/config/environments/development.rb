@@ -56,6 +56,21 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.logger = ActiveSupport::Logger.new(nil)
+
+  config.active_job.queue_adapter     = :sidekiq
+  config.active_job.queue_name_prefix = "fmapi"
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV['SMTP_USER'],
+    :password => ENV['SMTP_PASSWORD'],
+    :address => ENV['SMTP_ADDRESS'] || ENV['SMTP_HOST'],
+    :host => ENV['SMTP_HOST'],
+    :port => ENV['SMTP_PORT'],
+    :authentication => :cram_md5
+  }
 end
 
 Rails.application.routes.default_url_options[:host] = ENV['API_URL'] || 'http://localhost:3000'

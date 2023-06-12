@@ -75,3 +75,6 @@ RSpec.configure do |config|
 
   config.include Devise::Test::IntegrationHelpers, type: :request
 end
+
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!

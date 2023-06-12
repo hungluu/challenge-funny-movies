@@ -1,0 +1,9 @@
+:concurrency: 3
+:max_retries: 3
+production:
+  :concurrency: 6
+:queues:
+  - default
+  - mailers
+  - fmapi_default
+  - fmapi_mailers

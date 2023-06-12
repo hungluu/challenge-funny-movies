@@ -36,6 +36,7 @@ services:
       - db
       - cache
     networks:
+      - pub-net
       - priv-net
 
   db:

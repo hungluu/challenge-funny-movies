@@ -66,3 +66,5 @@ gem "pagy", "~> 6.0"
 gem "pagy_cursor", "~> 0.6.0"
 
 gem "redis", "~> 5.0"
+
+gem "sidekiq-cron", "~> 1.10"
